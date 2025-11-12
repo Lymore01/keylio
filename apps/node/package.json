@@ -1,0 +1,17 @@
+{
+  "name": "next",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.0",
+  "dependencies": {
+    "@keylio/keylio": "workspace:*",
+    "@keylio/core": "workspace:*",
+    "@keylio/next": "workspace:*"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@keylio/db",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "exports": {
+    ".": "./index.ts",
+    "./mongodb": "./mongodb/index.ts",
+    "./prisma": "./prisma/index.ts"
+  },
+  "packageManager": "pnpm@10.17.0",
+  "dependencies": {
+    "mongodb": "^7.0.0",
+    "prisma": "^6.19.0"
+  }
+}

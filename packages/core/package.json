@@ -1,0 +1,23 @@
+{
+  "name": "@keylio/core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "exports": {
+    "./adapters": "./src/adapters/index.ts",
+    "./adapters/prisma": "./src/adapters/prisma-adapter/index.ts",
+    "./adapters/mongodb": "./src//adapters/mongodb-adapter/index.ts",
+    "./jwt": "./src/token/jwt.ts",
+    "./errors": "./src/errors.ts",
+    "./sessions": "./src/session/index.ts"
+  },
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.0",
+  "dependencies": {
+    "@keylio/db": "workspace:*",
+    "@keylio/shared": "workspace:*",
+    "@keylio/keylio": "workspace:*"
+  }
+}

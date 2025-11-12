@@ -1,0 +1,13 @@
+{
+  "name": "@keylio/next",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.0",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
