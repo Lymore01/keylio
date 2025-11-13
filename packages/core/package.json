@@ -11,7 +11,7 @@
     "./adapters/mongodb": "./src//adapters/mongodb-adapter/index.ts",
     "./jwt": "./src/token/jwt.ts",
     "./errors": "./src/errors.ts",
-    "./sessions": "./src/session/index.ts"
+    "./cookies": "./src/cookies/index.ts"
   },
   "license": "ISC",
   "packageManager": "pnpm@10.17.0",

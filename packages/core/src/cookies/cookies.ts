@@ -4,19 +4,19 @@ import { SESSION_KEY } from "@keylio/shared/constants";
 
 /**
  * Creates and stores a JWT session cookie in either the browser or server environment
- * 
+ *
  * @param {string} token - The JWT access token to store in the cookie.
- * @param {SessionOptions} [sessionOptions] - Optional session configuration defining
+ * @param {SessionOptions} [cookieOptions] - Optional session configuration defining
  * cookie behavior (name, maxAge, path, secure flags, etc.).
  * @param {Function} [cookies] - Optional cookie API function for server-side cookie management
  * (e.g., Next.js `cookies()` or a custom implementation).
  */
 export async function createJwtSessionCookie(
   token: string,
-  sessionOptions?: SessionOptions,
+  cookieOptions?: SessionOptions["cookie"],
   cookies?: any
 ) {
-  const cookieConfig = getFinalCookieConfig(sessionOptions?.cookie);
+  const cookieConfig = getFinalCookieConfig(cookieOptions!);
 
   cookies?.().set(cookieConfig.name!, token, {
     httpOnly: cookieConfig.httpOnly,
@@ -59,15 +59,24 @@ export async function deleteJwtSessionCookie(
 
   if (cookies && typeof cookies === "function") {
     try {
-      const cookieStore = cookies();
-      const token = cookieStore.get(cookieName)?.value || null;
+      const { cookieStore, cookieToken } = await getJWTSessionCookie(
+        cookieName,
+        cookies
+      );
 
       cookieStore.delete(cookieName);
-      return token;
+      return cookieToken;
     } catch (error) {
       console.warn("Cookie deletion failed in server context:", error);
     }
   }
 
   return null;
+}
+
+export async function getJWTSessionCookie(cookieName?: string, cookies?: any) {
+  const cookieStore = cookies();
+  const cookie = cookieName || SESSION_KEY;
+  const cookieToken = cookieStore.get(cookie)?.value || null;
+  return { cookieToken, cookieStore };
 }

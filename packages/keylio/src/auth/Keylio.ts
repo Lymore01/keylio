@@ -6,7 +6,7 @@ import { AuthError } from "@keylio/core/errors";
 import { verifyJwtToken } from "@keylio/core/jwt";
 import { SessionType, UserType } from "../types/auth";
 import { SESSION_KEY } from "@keylio/shared/constants";
-import { deleteJwtSessionCookie } from "@keylio/core/sessions";
+import { deleteJwtSessionCookie } from "@keylio/core/cookies";
 
 export class Keylio {
   constructor(public authConfig: KeylioConfig) {

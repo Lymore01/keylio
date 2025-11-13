@@ -5,7 +5,7 @@ import { AuthError } from "@keylio/core/errors";
 import { jwtSign } from "@keylio/core/jwt";
 import type { AuthDataMap, Cookie, SessionOptions } from "../../config";
 import type { SessionType, UserType } from "../../types/auth";
-import { createJwtSessionCookie } from "@keylio/core/sessions";
+import { createJwtSessionCookie } from "@keylio/core/cookies";
 
 const SALT_ROUNDS = 10;
 
