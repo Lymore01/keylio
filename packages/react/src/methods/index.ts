@@ -1,4 +1,4 @@
-import { AuthOptions, SignInInput } from "../../../keylio/config";
+import { AuthOptions, SignInInput } from "@keylio/keylio/config";
 
 export async function signIn<T extends AuthOptions>(input: SignInInput<T>) {
   const res = await fetch("/api/auth/signin", {

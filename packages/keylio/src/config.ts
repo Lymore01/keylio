@@ -107,7 +107,7 @@ export interface OptionalFeatures {
 export interface KeylioConfig {
   database?: DbOptions;
   adapter?: DBAdapter;
-  auth: AuthConfig;
+  auth?: AuthConfig;
   session: SessionOptions;
   roles?: RolePermissions;
   callbacks?: Callbacks;

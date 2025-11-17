@@ -19,9 +19,41 @@ type PrismaClientInternal = {
   };
 };
 
+export const convertWhereClause = (where: Where[] | undefined) => {
+  const and = where?.filter((w) => w.connector !== "OR");
+  const or = where?.filter((w) => w.connector === "OR");
+
+  if (!where || !where.length) return {};
+
+  const build = (w: Where) => {
+    const op = w.operator || "eq";
+    const field = w.field;
+    return {
+      [field]: op === "eq" ? w.value : { [mapOperator(op)]: w.value },
+    };
+  };
+
+  return {
+    ...(and?.length ? { AND: and.map(build) } : {}),
+    ...(or?.length ? { OR: or.map(build) } : {}),
+  };
+};
+
+const mapOperator = (op: string) => {
+  return (
+    {
+      ne: "not",
+      in: "in",
+      not_in: "notIn",
+      starts_with: "startsWith",
+      ends_with: "endsWith",
+    }[op] || op
+  );
+};
+
 export const prismaAdapter = (
   prisma: PrismaClient,
-  config: AdapterFactoryOptions
+  config?: AdapterFactoryOptions
 ): DBAdapter => {
   const db = prisma as PrismaClientInternal;
 
@@ -37,37 +69,6 @@ export const prismaAdapter = (
     }, {});
   };
 
-  const convertWhereClause = (where: Where[] | undefined) => {
-    const and = where?.filter((w) => w.connector !== "OR");
-    const or = where?.filter((w) => w.connector === "OR");
-
-    if (!where || !where.length) return {};
-
-    const build = (w: Where) => {
-      const op = w.operator || "eq";
-      const field = w.field;
-      return {
-        [field]: op === "eq" ? w.value : { [mapOperator(op)]: w.value },
-      };
-    };
-
-    return {
-      ...(and?.length ? { AND: and.map(build) } : {}),
-      ...(or?.length ? { OR: or.map(build) } : {}),
-    };
-  };
-
-  const mapOperator = (op: string) => {
-    return (
-      {
-        ne: "not",
-        in: "in",
-        not_in: "notIn",
-        starts_with: "startsWith",
-        ends_with: "endsWith",
-      }[op] || op
-    );
-  };
   return {
     async create(model, data, select) {
       if (!db[model]) {
