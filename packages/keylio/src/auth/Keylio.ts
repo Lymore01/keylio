@@ -87,11 +87,12 @@ export class Keylio {
     }
   }
 
-  async signOut(): Promise<void> {
+  async signOut(cookies?: any): Promise<void> {
     try {
       const { session } = this.authConfig;
-
-      const token = await deleteJwtSessionCookie();
+      const token = await deleteJwtSessionCookie({
+        cookies,
+      });
 
       if (session.strategy === "database" && token) {
         await this.authConfig.adapter?.delete("session", [
@@ -129,11 +130,13 @@ export class Keylio {
 
         if (!token) return null;
 
-        return verifyJwtToken(token, this.authConfig.session.secret);
+        const decoded = verifyJwtToken(token, this.authConfig.session.secret);
+        return decoded;
       }
 
       if (strategy === "database") {
         const cookieHeader = req?.headers?.cookie || "";
+
         const token = cookieHeader
           .split("; ")
           .find((c) => c.startsWith(`${SESSION_KEY as string}=`))
@@ -146,9 +149,12 @@ export class Keylio {
         if (session && session.expires > new Date()) {
           const user = await this.authConfig.adapter?.findOne<UserType>(
             "user",
-            [{ field: "id", operator: "eq", value: session.userId }]
+            [{ field: "id", operator: "eq", value: session.userId }],
+            ["id", "email", "role"]
           );
-          return { user, session };
+          return session;
+        } else {
+          return null;
         }
       }
 

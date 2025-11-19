@@ -6,7 +6,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "web:example": "pnpm --filter @example/next dev"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
     "bcrypt": "^6.0.0",
     "jsonwebtoken": "^9.0.2",
     "next": "^16.0.1",
+    "typescript": "^5.9.3",
     "uuid": "^13.0.0",
     "vitest": "^4.0.8"
   }

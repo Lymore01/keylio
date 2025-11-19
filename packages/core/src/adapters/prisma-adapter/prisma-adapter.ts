@@ -25,6 +25,10 @@ export const convertWhereClause = (where: Where[] | undefined) => {
 
   if (!where || !where.length) return {};
 
+  if (where.length === 1 && where[0].field === "sessionToken") {
+    return { sessionToken: where[0].value };
+  }
+
   const build = (w: Where) => {
     const op = w.operator || "eq";
     const field = w.field;

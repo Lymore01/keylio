@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { KeylioHandler } from "../../../keylio/src/auth/handlers/handler";
 import { Keylio } from "../../../keylio/src/auth/Keylio";
+import { cookies } from "next/headers";
 
 /**
  * Adapts Keylio's handler for Next.js routes.
@@ -21,19 +22,23 @@ export function KeylioNextHandler(keylio: Keylio) {
         method: req.method,
         url: req.url,
         headers: Object.fromEntries(req.headers),
-        cookies: req.cookies,
+        cookies: cookies,
       });
 
       return NextResponse.json(response.body, { status: response.status });
     },
     async POST(req: NextRequest) {
-      const body = await req.json();
+      let body: any;
+      if (req.url.includes("signin") || req.url.includes("signup")) {
+        body = await req.json();
+      }
+
       const response = await handleRequest({
         method: req.method,
         url: req.url,
         headers: Object.fromEntries(req.headers),
         body,
-        cookies: Object.fromEntries(req.cookies),
+        cookies,
       });
 
       return NextResponse.json(response.body, { status: response.status });

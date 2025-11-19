@@ -44,13 +44,17 @@ export async function signInUsingCredentials(
     });
   }
 
+  const now = Math.floor(Date.now() / 1000);
+
   const tokenPayload = {
     sub: user.id,
     email: user.email,
     role: user.role,
-    iat: Math.floor(Date.now() / 1000),
-    exp: Math.floor(Date.now() / 1000 + maxAge! / 1000),
+    iat: now,
+    exp: now + maxAge!,
   };
+
+
 
   const token = await jwtSign(tokenPayload, sessionOptions);
 
@@ -93,7 +97,7 @@ export async function signInUsingCredentials(
         id: undefined,
         sessionToken: newSessionToken,
         userId: user.id,
-        expires: new Date(Date.now() + maxAge!),
+        expires: new Date(Date.now() + maxAge!*1000),
       });
 
       await createJwtSessionCookie(newSessionToken, sessionOptions, cookies);

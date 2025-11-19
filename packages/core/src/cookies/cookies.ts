@@ -17,8 +17,9 @@ export async function createJwtSessionCookie(
   cookies?: any
 ) {
   const cookieConfig = getFinalCookieConfig(cookieOptions!);
+  const cookieStore = await cookies();
 
-  cookies?.().set(cookieConfig.name!, token, {
+  cookieStore.set(cookieConfig.name!, token, {
     httpOnly: cookieConfig.httpOnly,
     secure: cookieConfig.secure,
     sameSite: cookieConfig.sameSite,
@@ -37,10 +38,13 @@ export async function createJwtSessionCookie(
  * @param cookies - Optional cookie API function (used in server context like Next.js).
  * @returns The deleted cookie's value (token) if available.
  */
-export async function deleteJwtSessionCookie(
-  sessionOptions?: SessionOptions,
-  cookies?: any
-): Promise<string | null> {
+export async function deleteJwtSessionCookie({
+  sessionOptions,
+  cookies,
+}: {
+  sessionOptions?: SessionOptions;
+  cookies?: any;
+}): Promise<string | null> {
   const cookieConfig = getFinalCookieConfig(sessionOptions?.cookie);
   const cookieName = cookieConfig.name || SESSION_KEY;
 
@@ -75,7 +79,7 @@ export async function deleteJwtSessionCookie(
 }
 
 export async function getJWTSessionCookie(cookieName?: string, cookies?: any) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const cookie = cookieName || SESSION_KEY;
   const cookieToken = cookieStore.get(cookie)?.value || null;
   return { cookieToken, cookieStore };

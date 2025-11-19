@@ -13,13 +13,16 @@ export async function handleGET(
     const session = await keylio.getSession?.(req);
 
     if (!session) {
-      return jsonResponse({ session: null, error: "No active session" }, 401);
+      return jsonResponse(
+        { session: null, error: "No active session or session expired!" },
+        401
+      );
+    } else {
+      return jsonResponse({ session }, 200);
     }
-
-    return jsonResponse({ session }, 200);
   }
 
-  if (path.endsWith("/auth") || path.endsWith("/")) {
+  if (path.endsWith("/test") || path.endsWith("/")) {
     return jsonResponse({ message: "Keylio API is running..." }, 200);
   }
 
@@ -47,7 +50,7 @@ export async function handlePOST(
     }
 
     if (path.includes("signout")) {
-      await keylio.signOut();
+      await keylio.signOut(cookies);
       return jsonResponse({ message: "Signed out" }, 200);
     }
 

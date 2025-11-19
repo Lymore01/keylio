@@ -26,5 +26,6 @@ export async function signUp<T extends AuthOptions>(input: SignInInput<T>) {
 
 export async function signOut() {
   const res = await fetch("/api/auth/signout", { method: "POST" });
+  console.log("Signout Response: ", res);
   return res.json();
 }

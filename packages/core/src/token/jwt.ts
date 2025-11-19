@@ -5,9 +5,7 @@ export async function jwtSign(
   payload: any,
   jwtOptions: SessionOptions
 ): Promise<string> {
-  const token = jwt.sign(payload, jwtOptions.secret, {
-    expiresIn: Number(jwtOptions.maxAge),
-  });
+  const token = jwt.sign(payload, jwtOptions.secret);
 
   return token;
 }
@@ -25,9 +23,11 @@ export function verifyJwtToken(
     }
 
     const decoded = jwt.verify(token, secret);
+
     return decoded;
   } catch (error) {
     console.error("JWT verification failed:", (error as Error).message);
     return null;
   }
 }
+
