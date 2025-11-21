@@ -103,13 +103,17 @@ export interface OptionalFeatures {
   customEmailTemplates?: boolean;
 }
 
-
 export interface KeylioConfig {
   database?: DbOptions;
   adapter?: DBAdapter;
   auth?: AuthConfig;
-  session: SessionOptions;
+  session?: SessionOptions;
   roles?: RolePermissions;
   callbacks?: Callbacks;
   features?: OptionalFeatures;
 }
+
+export type KeylioAuthConfig = Partial<KeylioConfig> & {
+  session: { secret: string };
+  adapter: DBAdapter;
+};

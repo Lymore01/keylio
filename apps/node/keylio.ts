@@ -8,7 +8,7 @@ const authOptions: KeylioConfig = {
   adapter: prismaAdapter(prisma),
   session: {
     strategy: "jwt",
-    secret: process.env.JWT_SECRET,
+    secret: process.env.AUTH_SECRET,
     maxAge: 60 * 60 * 24,
     refreshToken: true,
   },

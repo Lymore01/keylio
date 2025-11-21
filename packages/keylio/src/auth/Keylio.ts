@@ -1,4 +1,4 @@
-import { AuthDataMap, AuthOptions, KeylioConfig, SignInInput } from "../config";
+import { AuthDataMap, AuthOptions, KeylioAuthConfig, KeylioConfig, SignInInput } from "../config";
 import { signInUsingCredentials } from "../providers/credentials/sign-in";
 import { signUpUsingCredentials } from "../providers/credentials/sign-up";
 import type { HttpRequest } from "../types/http";
@@ -7,13 +7,21 @@ import { verifyJwtToken } from "@keylio/core/jwt";
 import { SessionType, UserType } from "../types/auth";
 import { SESSION_KEY } from "@keylio/shared/constants";
 import { deleteJwtSessionCookie } from "@keylio/core/cookies";
+import { createKeylioConfig } from "../utils";
 
 export class Keylio {
-  constructor(public authConfig: KeylioConfig) {
+  private config: KeylioConfig;
+
+  constructor(config: KeylioAuthConfig) {
+    this.config = createKeylioConfig(config);
     this.signUp = this.signUp.bind(this);
     this.signIn = this.signIn.bind(this);
     this.signOut = this.signOut.bind(this);
     this.getSession = this.getSession.bind(this);
+  }
+
+  getConfig() {
+    return this.config;
   }
 
   async signUp<T extends AuthOptions>(input: SignInInput<T>, cookies?: any) {
@@ -24,8 +32,8 @@ export class Keylio {
         case "credentials":
           return await signUpUsingCredentials(
             data as AuthDataMap["credentials"],
-            this.authConfig.session,
-            this.authConfig.adapter!,
+            this.config.session!,
+            this.config.adapter!,
             cookies!
           );
 
@@ -60,8 +68,8 @@ export class Keylio {
         case "credentials":
           return await signInUsingCredentials(
             data as AuthDataMap["credentials"],
-            this.authConfig.session,
-            this.authConfig.adapter!,
+            this.config.session!,
+            this.config.adapter!,
             cookies!
           );
 
@@ -89,13 +97,13 @@ export class Keylio {
 
   async signOut(cookies?: any): Promise<void> {
     try {
-      const { session } = this.authConfig;
+      const { session } = this.config;
       const token = await deleteJwtSessionCookie({
         cookies,
       });
 
-      if (session.strategy === "database" && token) {
-        await this.authConfig.adapter?.delete("session", [
+      if (session?.strategy === "database" && token) {
+        await this.config.adapter?.delete("session", [
           { field: "sessionToken", operator: "eq", value: token },
         ]);
       }
@@ -108,8 +116,7 @@ export class Keylio {
 
   async getSession(req?: HttpRequest): Promise<any> {
     try {
-      const { strategy } = this.authConfig.session;
-
+      const { strategy } = this.config.session!;
       if (strategy === "jwt") {
         let token: string | null = null;
 
@@ -122,32 +129,38 @@ export class Keylio {
         } else if (req?.headers?.authorization) {
           token = req.headers.authorization.split("Bearer ")[1];
         } else if (req?.headers?.cookie) {
-          const match = req.headers.cookie
-            .split("; ")
-            .find((row) => row.startsWith(`${SESSION_KEY as string}=`));
-          token = match?.split("=")[1] || null;
+          const cookies = req.headers.cookie;
+          if (cookies.includes(";")) {
+            const match = cookies
+              .split("; ")
+              .find((row) => row.startsWith(`${SESSION_KEY as string}=`));
+            token = match?.split("=")[1] || null;
+          } else {
+            token = req?.headers.cookie || null;
+          }
         }
 
-        if (!token) return null;
+        if (!token) {
+          return null;
+        }
 
-        const decoded = verifyJwtToken(token, this.authConfig.session.secret);
+        const decoded = verifyJwtToken(token, this.config.session!.secret);
+
         return decoded;
-      }
-
-      if (strategy === "database") {
+      } else if (strategy === "database") {
         const cookieHeader = req?.headers?.cookie || "";
 
         const token = cookieHeader
           .split("; ")
           .find((c) => c.startsWith(`${SESSION_KEY as string}=`))
           ?.split("=")[1];
-        const session = await this.authConfig.adapter?.findOne<SessionType>(
+        const session = await this.config.adapter?.findOne<SessionType>(
           "session",
           [{ field: "sessionToken", operator: "eq", value: token }]
         );
 
         if (session && session.expires > new Date()) {
-          const user = await this.authConfig.adapter?.findOne<UserType>(
+          const user = await this.config.adapter?.findOne<UserType>(
             "user",
             [{ field: "id", operator: "eq", value: session.userId }],
             ["id", "email", "role"]
@@ -156,9 +169,9 @@ export class Keylio {
         } else {
           return null;
         }
+      } else {
+        return null;
       }
-
-      return null;
     } catch (error: any) {
       this.handleError(error);
     }

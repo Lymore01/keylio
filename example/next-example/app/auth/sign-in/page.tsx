@@ -1,11 +1,11 @@
 "use client";
 
 import {  useState } from "react";
-import { SignInInput } from "../../../../../packages/keylio/src/config";
+import { SignInInput } from "../../../../../packages/keylio/src/config"; // @keylio/auth/config
 import {
   signIn,
   signOut,
-} from "../../../../../packages/react/src/methods/index";
+} from "../../../../../packages/react/src/methods/index"; //@keylio/react
 
 export default function SignUp() {
   const [email, setEmail] = useState("");

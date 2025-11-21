@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "../../packages/react/src/utils/index";
+import { SESSION_KEY } from "../../packages/shared/constants";
+import { verifyJwtToken } from "../../packages/core/src/token/jwt";
 
 const privateRoutePattern = /^\/protected(\/|$)/;
 const publicRoutePattern = /^\/auth(\/|$)/;
@@ -20,7 +22,6 @@ export async function middlewareAuth(request: NextRequest) {
 
 export async function handlePrivateRoutes(request: NextRequest) {
   const token = await getToken(request);
-  console.log("Token in middleware:", token);
 
   if (!token) {
     return NextResponse.redirect(new URL("/auth/sign-in", request.url));
@@ -29,7 +30,6 @@ export async function handlePrivateRoutes(request: NextRequest) {
 
 export async function handlePublicRoutes(request: NextRequest) {
   const token = await getToken(request);
-  console.log("Token in middleware:", token);
 
   if (token) {
     return NextResponse.redirect(new URL("/protected", request.url));

@@ -10,7 +10,7 @@ export async function handleGET(
   const path = url.pathname;
 
   if (path.includes("session")) {
-    const session = await keylio.getSession?.(req);
+    const session = await keylio.getSession(req);
 
     if (!session) {
       return jsonResponse(

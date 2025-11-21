@@ -26,7 +26,7 @@ const authOptions: KeylioConfig = {
   },
   session: {
     strategy: "jwt",
-    secret: process.env.JWT_SECRET!,
+    secret: process.env.AUTH_SECRET!,
     maxAge: 60 * 60 * 24, // 1 day
   },
 };
