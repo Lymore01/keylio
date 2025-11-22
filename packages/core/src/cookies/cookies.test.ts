@@ -172,9 +172,10 @@ describe("deleteJwtSessionCookie", () => {
 
       const mockCookies = vi.fn().mockReturnValue(mockCookieStore);
 
-      const token = await cookieUtils.deleteJwtSessionCookie(
-        undefined,
-        mockCookies
+      const token = await cookieUtils.deleteJwtSessionCookie({
+        sessionOptions: undefined,
+        cookies: mockCookies
+      }
       );
 
       expect(mockCookieStore.delete).toHaveBeenCalledWith(
@@ -190,9 +191,10 @@ describe("deleteJwtSessionCookie", () => {
       const mockCookies = vi
         .fn()
         .mockReturnValue({ delete: vi.fn(), get: vi.fn() });
-      const result = await cookieUtils.deleteJwtSessionCookie(
-        undefined,
-        mockCookies
+      const result = await cookieUtils.deleteJwtSessionCookie({
+        sessionOptions: undefined,
+        cookies: mockCookies
+      }
       );
 
       expect(result).toBeNull();

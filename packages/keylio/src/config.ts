@@ -75,9 +75,24 @@ export interface CookieOptions {
 }
 
 export interface SessionOptions {
+  /**
+   * Session strategy to use.
+   * - "jwt": stateless, signed tokens
+   * - "database": persisted sessions
+   */
   strategy?: SessionStrategy;
+
+  /**
+   * Secret used to sign JWTs.
+   * @remarks Required when using "jwt".
+   */
   secret: string;
-  maxAge?: number; // in seconds
+   /**
+   * Max age of the session in seconds.
+   * Default: 86400 (1 day).
+   */
+
+  maxAge?: number;
   refreshToken?: boolean;
   cookie?: CookieOptions;
 }
@@ -112,6 +127,14 @@ export interface KeylioConfig {
   callbacks?: Callbacks;
   features?: OptionalFeatures;
 }
+
+/**
+ * Minimal configuration required to initialize Keylio.
+ *
+ * @remarks
+ * - `session.secret` is required.
+ * - Other fields are optional and will fall back to defaults.
+ */
 
 export type KeylioAuthConfig = Partial<KeylioConfig> & {
   session: { secret: string };

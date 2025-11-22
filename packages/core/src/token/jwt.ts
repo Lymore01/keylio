@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import type { SessionOptions } from "@keylio/keylio/config";
+import type { SessionOptions } from "@keylio/auth/config";
 
 export async function jwtSign(
   payload: any,

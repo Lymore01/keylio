@@ -1,6 +1,6 @@
-import { SessionOptions } from "@keylio/keylio/config";
+import { SessionOptions } from "@keylio/auth/config";
 import { SESSION_KEY } from "@keylio/shared/constants";
-import { withDefaults } from "@keylio/keylio/utils";
+import { withDefaults } from "@keylio/auth/utils";
 
 /**
  * Creates and stores a JWT session cookie in either the browser or server environment
@@ -43,8 +43,8 @@ export async function deleteJwtSessionCookie({
   cookies,
 }: {
   sessionOptions?: SessionOptions;
-  cookies?: any;
-}): Promise<string | null> {
+  cookies?: unknown;
+} = {}): Promise<string | null> {
   const cookieConfig = withDefaults(sessionOptions?.cookie!);
   const cookieName = cookieConfig.name || SESSION_KEY;
 

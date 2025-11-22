@@ -39,18 +39,21 @@ importers:
       jsdom:
         specifier: ^27.2.0
         version: 27.2.0
+      prettier:
+        specifier: ^3.6.2
+        version: 3.6.2
       turbo:
         specifier: ^2.6.0
         version: 2.6.0
 
   apps/node:
     dependencies:
+      '@keylio/auth':
+        specifier: workspace:*
+        version: link:../../packages/keylio
       '@keylio/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@keylio/keylio':
-        specifier: workspace:*
-        version: link:../../packages/keylio
       '@keylio/next':
         specifier: workspace:*
         version: link:../../packages/next
@@ -60,9 +63,6 @@ importers:
       '@keylio/db':
         specifier: workspace:*
         version: link:../db
-      '@keylio/keylio':
-        specifier: workspace:*
-        version: link:../keylio
       '@keylio/shared':
         specifier: workspace:*
         version: link:../shared
@@ -96,7 +96,7 @@ importers:
         specifier: ^19.2.0
         version: 19.2.0
     devDependencies:
-      '@keylio/keylio':
+      '@keylio/auth':
         specifier: workspace:*
         version: link:../keylio
       '@keylio/shared':
@@ -107,6 +107,8 @@ importers:
         version: 19.2.2
 
   packages/shared: {}
+
+  packages/types: {}
 
   packages/utils: {}
 
@@ -1110,6 +1112,11 @@ packages:
   postcss@8.5.6:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
+
+  prettier@3.6.2:
+    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   prisma@6.19.0:
     resolution: {integrity: sha512-F3eX7K+tWpkbhl3l4+VkFtrwJlLXbAM+f9jolgoUZbFcm1DgHZ4cq9AgVEgUym2au5Ad/TDLN8lg83D+M10ycw==}
@@ -2245,6 +2252,8 @@ snapshots:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  prettier@3.6.2: {}
 
   prisma@6.19.0(typescript@5.9.3):
     dependencies:

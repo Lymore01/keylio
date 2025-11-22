@@ -1,6 +1,6 @@
 import { prismaAdapter } from "@keylio/core/adapters";
-import { Keylio } from "@keylio/keylio/auth";
-import { KeylioConfig } from "@keylio/keylio/config";
+import { Keylio } from "@keylio/auth";
+import { KeylioConfig } from "@keylio/auth/config";
 
 const prisma = {};
 

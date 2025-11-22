@@ -55,6 +55,13 @@ const mapOperator = (op: string) => {
   );
 };
 
+/**
+ * Creates a Keylio database adapter using Prisma.
+ *
+ * @param prisma - Prisma client instance
+ * @returns A Keylio-compatible DBAdapter
+ */
+
 export const prismaAdapter = (
   prisma: PrismaClient,
   config?: AdapterFactoryOptions

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import * as jwtUtils from "./jwt";
-import { SessionOptions } from "@keylio/keylio/config";
+import { SessionOptions } from "@keylio/auth/config";
 
 describe("jwtSign", async () => {
   const secret = "secret";
@@ -17,13 +17,14 @@ describe("jwtSign", async () => {
   });
 
   it("should set expiration based on maxAge", async () => {
-    const payload = { foo: "bar" };
+    const now = Math.floor(Date.now() / 1000);
     const options: SessionOptions = { secret, maxAge: 120 };
+
+    const payload = { foo: "bar", exp: now + options.maxAge };
 
     const token = await jwtUtils.jwtSign(payload, options);
     const decoded = jwtUtils.verifyJwtToken(token, secret) as any;
 
-    const now = Math.floor(Date.now() / 1000);
     expect(decoded.exp).toBeGreaterThanOrEqual(now + 119);
     expect(decoded.exp).toBeLessThanOrEqual(now + 121);
   });

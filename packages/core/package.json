@@ -1,9 +1,12 @@
 {
   "name": "@keylio/core",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "keywords": [],
+  "scripts": {
+     "test": "vitest run"
+  },
   "author": "",
   "exports": {
     "./adapters": "./src/adapters/index.ts",
@@ -17,7 +20,6 @@
   "packageManager": "pnpm@10.17.0",
   "dependencies": {
     "@keylio/db": "workspace:*",
-    "@keylio/shared": "workspace:*",
-    "@keylio/keylio": "workspace:*"
+    "@keylio/shared": "workspace:*"
   }
 }

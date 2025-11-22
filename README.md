@@ -14,8 +14,8 @@ Keylio is fully configurable. Here’s a minimal setup using Prisma + PostgreSQL
 ```ts
 // ./keylio.ts
 import { prismaAdapter } from "@keylio/core/adapters";
-import { Keylio } from "@keylio/keylio/auth";
-import { KeylioConfig } from "@keylio/keylio/config";
+import { Keylio } from "@keylio/auth";
+import { KeylioConfig } from "@keylio/config";
 import { prisma } from "@prisma/client";
 
 const authOptions: KeylioConfig = {

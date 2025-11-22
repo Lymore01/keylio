@@ -1,16 +1,19 @@
 {
-  "name": "@keylio/keylio",
-  "version": "1.0.0",
+  "name": "@keylio/auth",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "test": "vitest run"
+  },
   "packageManager": "pnpm@10.17.0",
   "exports": {
+    ".": "./src/auth/index.ts",
     "./config": "./src/config.ts",
-    "./utils": "./src/utils/index.ts",
-    "./auth": "./src/auth/index.ts"
+    "./utils": "./src/utils/index.ts"
   },
   "dependencies": {
     "@keylio/db": "workspace:*",

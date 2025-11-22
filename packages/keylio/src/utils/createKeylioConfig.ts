@@ -7,6 +7,22 @@ import {
   defaultCookieConfig,
 } from "./defaults";
 
+/**
+ * Creates a complete Keylio configuration by merging user-provided options
+ * with secure defaults.
+ *
+ * @param config - Partial configuration with at least `session.secret`.
+ * @returns A fully normalized KeylioConfig object.
+ *
+ * @example
+ * ```ts
+ * const config = createKeylioConfig({
+ *   session: { secret: "super-secret" },
+ *   auth: { oauth: [{ provider: "google", clientId: "xxx", clientSecret: "yyy" }] }
+ * });
+ * ```
+ */
+
 export function createKeylioConfig(
   config: Omit<KeylioConfig, "session"> & {
     session: Pick<SessionOptions, "secret"> & Partial<SessionOptions>;

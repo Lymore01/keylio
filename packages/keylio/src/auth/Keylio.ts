@@ -9,6 +9,14 @@ import { SESSION_KEY } from "@keylio/shared/constants";
 import { deleteJwtSessionCookie } from "@keylio/core/cookies";
 import { createKeylioConfig } from "../utils";
 
+/**
+ * Main authentication client for Keylio.
+ *
+ * @remarks
+ * - Handles sign-in, sign-out, and session management.
+ * - Accepts a {@link KeylioAuthConfig} object.
+ */
+
 export class Keylio {
   private config: KeylioConfig;
 
@@ -108,7 +116,7 @@ export class Keylio {
         ]);
       }
 
-      console.log("User signed out successfully");
+      console.log("[DEBUG]: User signed out successfully");
     } catch (error: any) {
       this.handleError(error);
     }

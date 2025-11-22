@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { SignInInput } from "../../../../../packages/keylio/src/config" // @keylio/auth/config;
-import { signUp } from "../../../../../packages/react/src/methods/index" // @keylio/react;
+import type { SignInInput } from "../../../../../packages/keylio/src/config"; // @keylio/auth/config;
+import { signUp } from "../../../../../packages/react/src/methods/index"; // @keylio/react;
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -21,8 +21,12 @@ export default function SignIn() {
 
       const result = await signUp(input);
       setMessage(`User created: ${result.user.email}`);
-    } catch (err: any) {
-      setMessage(err.message || "Failed to sign up");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setMessage(err.message);
+      } else {
+        setMessage("Failed to sign in");
+      }
     }
   };
 
@@ -83,7 +87,6 @@ export default function SignIn() {
           <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
         )}
       </div>
-      
     </div>
   );
 }

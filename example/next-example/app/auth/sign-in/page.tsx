@@ -1,6 +1,6 @@
 "use client";
 
-import {  useState } from "react";
+import { useState } from "react";
 import { SignInInput } from "../../../../../packages/keylio/src/config"; // @keylio/auth/config
 import {
   signIn,
@@ -24,21 +24,14 @@ export default function SignUp() {
 
       const result = await signIn(input);
       setMessage(`User logged in: ${result.user.email}`);
-    } catch (err: any) {
-      setMessage(err.message || "Failed to sign in");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setMessage(err.message);
+      } else {
+        setMessage("Failed to sign in");
+      }
     }
   };
-
-  // useEffect(() => {
-  //   async function gettToken() {
-  //     const token = await getToken();
-  //     return token;
-  //   }
-
-  //   gettToken().then((data) => {
-  //     console.log("Session available: ", data);
-  //   });
-  // }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
