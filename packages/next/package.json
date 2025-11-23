@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist coverage"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

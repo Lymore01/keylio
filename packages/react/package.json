@@ -6,8 +6,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-   "scripts": {
-     "test": "vitest run"
+  "scripts": {
+    "test": "vitest run",
+    "clean": "rimraf dist coverage"
   },
   "packageManager": "pnpm@10.17.0",
   "dependencies": {

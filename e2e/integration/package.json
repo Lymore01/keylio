@@ -1,0 +1,11 @@
+{
+  "name": "integration",
+  "scripts": {
+    "e2e:integration": "playwright test",
+    "e2e:integration:report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.0"
+}

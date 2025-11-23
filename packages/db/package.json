@@ -6,6 +6,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "clean": "rimraf dist coverage"
+  },
   "exports": {
     ".": "./index.ts",
     "./mongodb": "./mongodb/index.ts",
