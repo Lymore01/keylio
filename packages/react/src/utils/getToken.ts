@@ -1,6 +1,6 @@
 import { SESSION_KEY } from "@keylio/shared/constants";
-import { GetServerSidePropsContext, NextApiRequest } from "next";
-import { NextRequest } from "next/server";
+import type { GetServerSidePropsContext, NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 
 export interface GetTokenParams<R extends boolean = false> {
   req: GetServerSidePropsContext["req"] | NextApiRequest | NextRequest;

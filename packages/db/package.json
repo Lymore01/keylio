@@ -11,8 +11,7 @@
   },
   "exports": {
     ".": "./index.ts",
-    "./mongodb": "./mongodb/index.ts",
-    "./prisma": "./prisma/index.ts"
+    "./mongodb": "./mongodb/index.ts"
   },
   "packageManager": "pnpm@10.17.0",
   "dependencies": {

@@ -1,11 +1,11 @@
 import {
-  ClientSession,
-  Document,
   ObjectId,
+  type ClientSession,
   type Db,
+  type Document,
   type MongoClient,
 } from "@keylio/db/mongodb";
-import { DBAdapter, QueryOptions, Where } from "../index";
+import type { DBAdapter, QueryOptions, Where } from "../index";
 
 export interface MongoDbAdapterConfig {
   client?: MongoClient | undefined;
@@ -224,7 +224,7 @@ export const mongoAdapter = (
         _id: res.insertedId.toString(),
         ...data,
       };
-      return insertedData as any;
+      return insertedData as unknown as any;
     },
 
     async findOne(model, where, select) {
@@ -234,7 +234,7 @@ export const mongoAdapter = (
         .collection(model)
         .findOne(clause, { session, projection });
       if (!res) return null;
-      return res as any;
+      return res as unknown as any;
     },
 
     async findMany(model, where, options) {
@@ -246,7 +246,7 @@ export const mongoAdapter = (
       if (sortBy)
         cursor.sort(sortBy.field, sortBy.direction === "desc" ? -1 : 1);
       const res = await cursor.toArray();
-      return res as any;
+      return res as unknown as any[];
     },
 
     async count(model, where) {
@@ -262,7 +262,7 @@ export const mongoAdapter = (
       const res = await db.collection(model).findOneAndUpdate(
         clause,
         {
-          $set: update as any,
+          $set: update as unknown,
         },
         {
           session,
@@ -271,7 +271,7 @@ export const mongoAdapter = (
       );
 
       if (!res) return null;
-      return res as any;
+      return res as unknown as any;
     },
     async updateMany(model, where, update) {
       const clause = convertWhereClause(where);
@@ -279,7 +279,7 @@ export const mongoAdapter = (
       const res = await db.collection(model).updateMany(
         clause,
         {
-          $set: update as any,
+          $set: update as unknown,
         },
         { session }
       );

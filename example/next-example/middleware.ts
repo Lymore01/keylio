@@ -1,7 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { getToken } from "../../packages/react/src/utils/index";
-import { SESSION_KEY } from "../../packages/shared/constants";
-import { verifyJwtToken } from "../../packages/core/src/token/jwt";
 
 const privateRoutePattern = /^\/protected(\/|$)/;
 const publicRoutePattern = /^\/auth(\/|$)/;

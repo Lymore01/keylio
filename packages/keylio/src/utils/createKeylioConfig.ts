@@ -1,4 +1,4 @@
-import { KeylioConfig, SessionOptions } from "../config";
+import type { KeylioConfig, SessionOptions } from "../config";
 import {
   defaultSessionConfig,
   defaultCredentialsConfig,

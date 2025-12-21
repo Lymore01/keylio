@@ -1,4 +1,4 @@
-import { AuthOptions, SignInInput } from "@keylio/auth/config";
+import type { AuthOptions, SignInInput } from "@keylio/auth/config";
 
 /**
  * Signs in a user using the provided authentication input.

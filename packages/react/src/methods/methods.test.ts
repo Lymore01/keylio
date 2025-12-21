@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { signIn, signUp, signOut } from "./index";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { signIn, signOut, signUp } from "./index";
 
 describe("Auth API functions", () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe("Auth API functions", () => {
         type: "credentials",
         data: { email: "test@example.com", password: "123" },
       };
-      const result = await signIn(input as any);
+      const result = await signIn(input as unknown as any);
 
       expect(global.fetch).toHaveBeenCalledWith(
         "/api/auth/signin",
@@ -42,7 +42,9 @@ describe("Auth API functions", () => {
         data: { email: "bad@example.com", password: "wrong" },
       };
 
-      await expect(signIn(input as any)).rejects.toThrow("Invalid credentials");
+      await expect(signIn(input as unknown as any)).rejects.toThrow(
+        "Invalid credentials"
+      );
     });
   });
 
@@ -58,7 +60,7 @@ describe("Auth API functions", () => {
         type: "credentials",
         data: { email: "new@example.com", password: "123" },
       };
-      const result = await signUp(input as any);
+      const result = await signUp(input as unknown as any);
 
       expect(global.fetch).toHaveBeenCalledWith(
         "/api/auth/signup",
@@ -82,7 +84,7 @@ describe("Auth API functions", () => {
         data: { email: "duplicate@example.com", password: "123" },
       };
 
-      await expect(signUp(input as any)).rejects.toThrow(
+      await expect(signUp(input as unknown as any)).rejects.toThrow(
         "Email already exists"
       );
     });

@@ -3,6 +3,7 @@
   "include": ["src"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"],
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "rootDir": "src"
   }
 }

@@ -1,2 +1,1 @@
-export * from "./mongodb/index";
-export * from "./prisma/index";
+export * from './mongodb/index';

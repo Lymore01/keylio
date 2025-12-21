@@ -1,27 +1,32 @@
 import { describe, expect, it, vi } from "vitest";
-import * as prismaUtils from "./prisma-adapter";
 import { AuthError } from "../errors";
+import * as prismaUtils from "./prisma-adapter";
 
 describe("Adapter Tests", async () => {
   describe("prismaAdapter", () => {
-    const prismaMock = {
-      user: {
-        create: vi.fn().mockResolvedValue({ id: 1, email: "test@example.com" }),
-        findFirst: vi
-          .fn()
-          .mockResolvedValue({ id: 1, email: "test@example.com" }),
-        findMany: vi.fn().mockResolvedValue([{ id: 1 }, { id: 2 }]),
-        update: vi
-          .fn()
-          .mockResolvedValue({ id: 1, email: "updated@example.com" }),
-        updateMany: vi.fn().mockResolvedValue({ count: 2 }),
-        delete: vi.fn().mockResolvedValue({ id: 1 }),
-        deleteMany: vi.fn().mockResolvedValue({ count: 3 }),
-        count: vi.fn().mockResolvedValue(5),
-      },
+    const userMock = {
+      create: vi.fn().mockResolvedValue({ id: 1, email: "test@example.com" }),
+      findFirst: vi
+        .fn()
+        .mockResolvedValue({ id: 1, email: "test@example.com" }),
+      findMany: vi.fn().mockResolvedValue([{ id: 1 }, { id: 2 }]),
+      update: vi
+        .fn()
+        .mockResolvedValue({ id: 1, email: "updated@example.com" }),
+      updateMany: vi.fn().mockResolvedValue({ count: 2 }),
+      delete: vi.fn().mockResolvedValue({ id: 1 }),
+      deleteMany: vi.fn().mockResolvedValue({ count: 3 }),
+      count: vi.fn().mockResolvedValue(5),
     };
 
-    const adapter = prismaUtils.prismaAdapter(prismaMock as any);
+    const prismaMock = {
+      user: userMock,
+      $transaction: vi.fn().mockImplementation(async (cb) => {
+        return cb({ user: userMock });
+      }),
+    };
+
+    const adapter = prismaUtils.prismaAdapter(prismaMock as unknown as any);
 
     it("should create a record", async () => {
       const result = await adapter.create(
@@ -52,7 +57,7 @@ describe("Adapter Tests", async () => {
         where: { AND: [{ email: "test@example.com" }] },
         select: { id: true },
       });
-      expect((result as any).email).toBe("test@example.com");
+      expect((result as unknown as any).email).toBe("test@example.com");
     });
 
     it("should find many records with limit and offset", async () => {
@@ -73,7 +78,7 @@ describe("Adapter Tests", async () => {
         email: "updated@example.com",
       });
       expect(prismaMock.user.update).toHaveBeenCalledWith({
-        where: { AND: [{ id: 1 }] },
+        where: { id: 1 },
         data: { email: "updated@example.com" },
       });
       expect(result?.email).toBe("updated@example.com");
@@ -95,7 +100,7 @@ describe("Adapter Tests", async () => {
     it("should delete a record", async () => {
       const result = await adapter.delete("user", [{ field: "id", value: 1 }]);
       expect(prismaMock.user.delete).toHaveBeenCalledWith({
-        where: { AND: [{ id: 1 }] },
+        where: { id: 1 },
       });
       expect(result).toBeUndefined();
     });
@@ -118,6 +123,17 @@ describe("Adapter Tests", async () => {
         where: { AND: [{ role: "admin" }] },
       });
       expect(result).toBe(5);
+    });
+
+    it("should execute a transaction", async () => {
+      const callback = vi.fn().mockResolvedValue("tx-result");
+      const result = await adapter.transaction!(callback);
+
+      expect(prismaMock.$transaction).toHaveBeenCalled();
+      expect(callback).toHaveBeenCalledWith(
+        expect.objectContaining({ create: expect.any(Function) })
+      );
+      expect(result).toBe("tx-result");
     });
   });
 });

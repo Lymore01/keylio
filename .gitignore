@@ -68,6 +68,8 @@ coverage/
 *.lcov
 jest-cache/
 jest-dist/
+playwright-report/
+test-results/
 
 # -------------------------------------------------
 # Miscellaneous

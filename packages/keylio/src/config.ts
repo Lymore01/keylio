@@ -1,4 +1,4 @@
-import { DBAdapter } from "@keylio/core/adapters";
+import type { DBAdapter } from "@keylio/core/adapters";
 
 export type AuthProvider = "google" | "github" | "facebook" | "linkedin";
 

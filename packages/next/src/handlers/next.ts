@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { KeylioHandler } from "../../../keylio/src/auth/handlers/handler";
-import { Keylio } from "../../../keylio/src/auth/Keylio";
+import type { Keylio } from "../../../keylio/src/auth/Keylio";
 import { cookies } from "next/headers";
 
 /**

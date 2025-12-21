@@ -1,5 +1,5 @@
 import { SESSION_KEY } from "@keylio/shared/constants";
-import { CookieOptions, SessionOptions, EmailPasswordOptions, PhoneOtpOptions, OptionalFeatures } from "../config";
+import type { CookieOptions, SessionOptions, EmailPasswordOptions, PhoneOtpOptions, OptionalFeatures } from "../config";
 
 export const defaultCookieConfig: CookieOptions = {
   name: SESSION_KEY,

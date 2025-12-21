@@ -1,10 +1,10 @@
-import { AuthDataMap, AuthOptions, KeylioAuthConfig, KeylioConfig, SignInInput } from "../config";
+import type { AuthDataMap, AuthOptions, KeylioAuthConfig, KeylioConfig, SignInInput } from "../config";
 import { signInUsingCredentials } from "../providers/credentials/sign-in";
 import { signUpUsingCredentials } from "../providers/credentials/sign-up";
 import type { HttpRequest } from "../types/http";
 import { AuthError } from "@keylio/core/errors";
 import { verifyJwtToken } from "@keylio/core/jwt";
-import { SessionType, UserType } from "../types/auth";
+import type { SessionType, UserType } from "../types/auth";
 import { SESSION_KEY } from "@keylio/shared/constants";
 import { deleteJwtSessionCookie } from "@keylio/core/cookies";
 import { createKeylioConfig } from "../utils";

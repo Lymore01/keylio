@@ -1,5 +1,5 @@
 import type { HttpRequest, HttpResponse } from "../../types/http";
-import { Keylio } from "../Keylio";
+import type { Keylio } from "../Keylio";
 import { handleGET, handlePOST } from "../routes";
 
 export function KeylioHandler(keylio: Keylio) {

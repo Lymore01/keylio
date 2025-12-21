@@ -1,6 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
+import type { SessionOptions } from "@keylio/auth/config";
+import { describe, expect, it } from "vitest";
 import * as jwtUtils from "./jwt";
-import { SessionOptions } from "@keylio/auth/config";
 
 describe("jwtSign", async () => {
   const secret = "secret";
@@ -12,7 +12,7 @@ describe("jwtSign", async () => {
 
     expect(typeof token).toBe("string");
 
-    const decoded = jwtUtils.verifyJwtToken(token, secret) as any;
+    const decoded = jwtUtils.verifyJwtToken(token, secret) as unknown as any;
     expect(decoded.userId).toBe(123);
   });
 
@@ -20,10 +20,10 @@ describe("jwtSign", async () => {
     const now = Math.floor(Date.now() / 1000);
     const options: SessionOptions = { secret, maxAge: 120 };
 
-    const payload = { foo: "bar", exp: now + options.maxAge };
+    const payload = { foo: "bar", exp: now + options.maxAge! };
 
     const token = await jwtUtils.jwtSign(payload, options);
-    const decoded = jwtUtils.verifyJwtToken(token, secret) as any;
+    const decoded = jwtUtils.verifyJwtToken(token, secret) as unknown as any;
 
     expect(decoded.exp).toBeGreaterThanOrEqual(now + 119);
     expect(decoded.exp).toBeLessThanOrEqual(now + 121);

@@ -2,7 +2,11 @@
   "cSpell.words": ["KEYLIOAUTH", "uuidv"],
   "editor.formatOnSave": true,
   "files.trimTrailingWhitespace": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-  "editor.detectIndentation": false
+  "editor.detectIndentation": false,
+  "prisma.pinToPrisma6": true
 }

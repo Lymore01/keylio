@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { DBAdapter } from "@keylio/core/adapters";
+import type { DBAdapter } from "@keylio/core/adapters";
 import { AuthError } from "@keylio/core/errors";
 import { jwtSign } from "@keylio/core/jwt";
 import { createJwtSessionCookie } from "@keylio/core/cookies";
@@ -63,7 +63,7 @@ export async function signInUsingCredentials(
       await createJwtSessionCookie(token, sessionOptions, cookies);
       break;
 
-    case "database":
+    case "database": {
       const existingSession = await adapter.findOne<SessionType>("session", [
         { field: "userId", operator: "eq", value: user.id },
       ]);
@@ -103,6 +103,7 @@ export async function signInUsingCredentials(
       await createJwtSessionCookie(newSessionToken, sessionOptions, cookies);
 
       break;
+    }
 
     default:
       throw new AuthError({

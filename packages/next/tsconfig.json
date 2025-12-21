@@ -1,8 +1,10 @@
 {
   "extends": "../shared/tsconfig/base.json",
+  "baseUrl": ".",
   "include": ["src"],
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "rootDir": "./src"
   }
 }

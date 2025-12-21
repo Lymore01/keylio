@@ -1,4 +1,4 @@
-import { CookieOptions } from "../config";
+import type { CookieOptions } from "../config";
 import { defaultCookieConfig } from "./defaults";
 
 export function withDefaults(userCookie: Partial<CookieOptions>) {

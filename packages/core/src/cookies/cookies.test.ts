@@ -136,8 +136,8 @@ describe("deleteJwtSessionCookie", () => {
     });
 
     afterEach(() => {
-      delete (global as any).window;
-      delete (global as any).document;
+      delete (global as unknown as any).window;
+      delete (global as unknown as any).document;
     });
 
     it("should delete cookie and return token if cookie exists", async () => {
@@ -160,8 +160,8 @@ describe("deleteJwtSessionCookie", () => {
 
   describe("Server context", () => {
     beforeEach(() => {
-      delete (global as any).window;
-      delete (global as any).document;
+      delete (global as unknown as any).window;
+      delete (global as unknown as any).document;
     });
 
     it("should delete cookie and return token if server cookie exists", async () => {
@@ -174,9 +174,8 @@ describe("deleteJwtSessionCookie", () => {
 
       const token = await cookieUtils.deleteJwtSessionCookie({
         sessionOptions: undefined,
-        cookies: mockCookies
-      }
-      );
+        cookies: mockCookies,
+      });
 
       expect(mockCookieStore.delete).toHaveBeenCalledWith(
         "default_session_key"
@@ -193,9 +192,8 @@ describe("deleteJwtSessionCookie", () => {
         .mockReturnValue({ delete: vi.fn(), get: vi.fn() });
       const result = await cookieUtils.deleteJwtSessionCookie({
         sessionOptions: undefined,
-        cookies: mockCookies
-      }
-      );
+        cookies: mockCookies,
+      });
 
       expect(result).toBeNull();
     });

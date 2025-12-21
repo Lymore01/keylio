@@ -1,37 +1,37 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { SignInInput } from '../../../../../packages/keylio/src/config'; // @keylio/auth/config
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import type { SignInInput } from "../../../../../packages/keylio/src/config"; // @keylio/auth/config
 import {
   signIn,
   signOut,
-} from '../../../../../packages/react/src/methods/index'; //@keylio/react
-import { useRouter } from 'next/navigation';
+} from "../../../../../packages/react/src/methods/index"; //@keylio/react
 
 export default function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage('Signing in...');
+    setMessage("Signing in...");
 
     try {
-      const input: SignInInput<'credentials'> = {
-        type: 'credentials',
+      const input: SignInInput<"credentials"> = {
+        type: "credentials",
         data: { email, password },
       };
 
       const result = await signIn(input);
       setMessage(`User logged in: ${result.user.email}`);
-      router.push('/protected');
+      router.push("/protected");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setMessage(err.message);
       } else {
-        setMessage('Failed to sign in');
+        setMessage("Failed to sign in");
       }
     }
   };

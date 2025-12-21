@@ -1,4 +1,4 @@
-import { SessionOptions } from "@keylio/auth/config";
+import type { SessionOptions } from "@keylio/auth/config";
 import { SESSION_KEY } from "@keylio/shared/constants";
 import { withDefaults } from "@keylio/auth/utils";
 

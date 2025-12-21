@@ -10,7 +10,7 @@ export type Where = {
     | "in"
     | "not_in"
     | "contains";
-  value: any;
+  value: unknown;
   connector?: "AND" | "OR";
 };
 
@@ -62,4 +62,3 @@ export interface DBAdapter {
   transaction?<R>(callback: (trx: DBAdapter) => Promise<R>): Promise<R>;
   options?: AdapterFactoryOptions;
 }
-

@@ -1,7 +1,7 @@
 import { AuthError } from "../../errors";
 import type { AdapterFactoryOptions, DBAdapter, Where } from "../index";
 
-interface PrismaClient {}
+type PrismaClient = {};
 
 type PrismaClientInternal = {
   $transaction: (
@@ -24,10 +24,6 @@ export const convertWhereClause = (where: Where[] | undefined) => {
   const or = where?.filter((w) => w.connector === "OR");
 
   if (!where || !where.length) return {};
-
-  if (where.length === 1 && where[0].field === "sessionToken") {
-    return { sessionToken: where[0].value };
-  }
 
   const build = (w: Where) => {
     const op = w.operator || "eq";
@@ -56,6 +52,23 @@ const mapOperator = (op: string) => {
 };
 
 /**
+ * Gets the Prisma delegate for a given model name.
+ *
+ * @param db
+ * @param model
+ * @returns the delegate for the given model, or undefined if not found
+ */
+
+function getDelegate(db: any, model: string) {
+  if (db[model]) return db[model];
+  const lower = model.toLowerCase();
+  if (db[lower]) return db[lower];
+  const camel = model.charAt(0).toLowerCase() + model.slice(1);
+  if (db[camel]) return db[camel];
+  return undefined;
+}
+
+/**
  * Creates a Keylio database adapter using Prisma.
  *
  * @param prisma - Prisma client instance
@@ -82,41 +95,44 @@ export const prismaAdapter = (
 
   return {
     async create(model, data, select) {
-      if (!db[model]) {
+      const delegate = getDelegate(db, model);
+      if (!delegate) {
         throw new AuthError({
           code: "MODEL_NOT_FOUND",
           message: `Model ${model} does not exist in the database. If you haven't generated the Prisma client, you need to run 'npx prisma generate'`,
         });
       }
 
-      return await db[model]!.create({
+      return await delegate.create({
         data,
         select: convertSelect(select),
       });
     },
     async findOne(model, where, select) {
       const whereClause = convertWhereClause(where);
-      if (!db[model]) {
+      const delegate = getDelegate(db, model);
+      if (!delegate) {
         throw new AuthError({
           code: "MODEL_NOT_FOUND",
           message: `Model ${model} does not exist in the database. If you haven't generated the Prisma client, you need to run 'npx prisma generate'`,
         });
       }
-      return await db[model]!.findFirst({
+      return await delegate.findFirst({
         where: whereClause,
         select: convertSelect(select),
       });
     },
     async findMany(model, where, options) {
       const whereClause = convertWhereClause(where);
-      if (!db[model]) {
+      const delegate = getDelegate(db, model);
+      if (!delegate) {
         throw new AuthError({
           code: "MODEL_NOT_FOUND",
           message: `Model ${model} does not exist in the database. If you haven't generated the Prisma client, you need to run 'npx prisma generate'`,
         });
       }
 
-      return (await db[model]!.findMany({
+      return (await delegate.findMany({
         where: whereClause,
         take: options?.limit || 100,
         skip: options?.offset || 0,
@@ -131,14 +147,27 @@ export const prismaAdapter = (
     },
     async update(model, where, update) {
       const whereClause = convertWhereClause(where);
-      if (!db[model]) {
+      const delegate = getDelegate(db, model);
+      if (!delegate) {
         throw new AuthError({
           code: "MODEL_NOT_FOUND",
           message: `Model ${model} does not exist in the database. If you haven't generated the Prisma client, you need to run 'npx prisma generate'`,
         });
       }
 
-      return await db[model]!.update({
+      // Prisma update requires a unique where clause.
+      // We try to find the record first to get its ID.
+      const record = await delegate.findFirst({ where: whereClause });
+      if (!record) return null;
+
+      if (record.id) {
+        return await delegate.update({
+          where: { id: record.id },
+          data: update,
+        });
+      }
+
+      return await delegate.update({
         where: whereClause,
         data: update,
       });
@@ -146,7 +175,13 @@ export const prismaAdapter = (
 
     async updateMany(model, where, update) {
       const whereClause = convertWhereClause(where);
-      const result = await db[model]!.updateMany({
+      const delegate = getDelegate(db, model);
+      if (!delegate)
+        throw new AuthError({
+          code: "MODEL_NOT_FOUND",
+          message: `Model ${model} not found`,
+        });
+      const result = await delegate.updateMany({
         where: whereClause,
         data: update,
       });
@@ -155,7 +190,8 @@ export const prismaAdapter = (
 
     async delete(model, where) {
       const whereClause = convertWhereClause(where);
-      if (!db[model]) {
+      const delegate = getDelegate(db, model);
+      if (!delegate) {
         throw new AuthError({
           code: "MODEL_NOT_FOUND",
           message: `Model ${model} does not exist in the database. If you haven't generated the Prisma client, you need to run 'npx prisma generate'`,
@@ -163,9 +199,14 @@ export const prismaAdapter = (
       }
 
       try {
-        await db[model]!.delete({
-          where: whereClause,
-        });
+        const record = await delegate.findFirst({ where: whereClause });
+        if (record && record.id) {
+          await delegate.delete({
+            where: { id: record.id },
+          });
+        } else if (record) {
+          await delegate.delete({ where: whereClause });
+        }
       } catch (error: any) {
         if (error?.meta?.cause === "Record to delete does not exist.") return;
         console.log(error);
@@ -174,22 +215,34 @@ export const prismaAdapter = (
 
     async deleteMany(model, where) {
       const whereClause = convertWhereClause(where);
-      const result = await db[model]!.deleteMany({
+      const delegate = getDelegate(db, model);
+      if (!delegate)
+        throw new AuthError({
+          code: "MODEL_NOT_FOUND",
+          message: `Model ${model} not found`,
+        });
+      const result = await delegate.deleteMany({
         where: whereClause,
       });
       return result ? (result.count as number) : 0;
     },
     async count(model, where) {
       const whereClause = convertWhereClause(where);
-      if (!db[model]) {
+      const delegate = getDelegate(db, model);
+      if (!delegate) {
         throw new AuthError({
           code: "MODEL_NOT_FOUND",
           message: `Model ${model} does not exist in the database. If you haven't generated the Prisma client, you need to run 'npx prisma generate'`,
         });
       }
 
-      return await db[model]!.count({
+      return await delegate.count({
         where: whereClause,
+      });
+    },
+    async transaction(callback) {
+      return await db.$transaction(async (tx) => {
+        return await callback(prismaAdapter(tx as PrismaClient, config));
       });
     },
     options: config,
