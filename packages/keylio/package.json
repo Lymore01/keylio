@@ -1,7 +1,7 @@
 {
   "name": "keylio",
   "version": "0.1.0",
-  "description": "Universal auth package for Typescript.",
+  "description": "A modular, framework-agnostic authentication system for TypeScript",
   "license": "MIT",
   "type": "module",
   "homepage": "https://keylio.com",
@@ -83,10 +83,6 @@
     }
   },
   "dependencies": {
-    "@keylio/core": "workspace:*",
-    "@keylio/db": "workspace:*",
-    "@keylio/shared": "workspace:*",
-    "@keylio/types": "workspace:*",
     "react": "19.2.0"
   },
   "peerDependencies": {
@@ -105,7 +101,11 @@
     "@types/react": "^19.2.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15",
-    "rimraf": "^6.1.2"
+    "rimraf": "^6.1.2",
+    "@keylio/core": "workspace:*",
+    "@keylio/db": "workspace:*",
+    "@keylio/shared": "workspace:*",
+    "@keylio/types": "workspace:*"
   },
   "packageManager": "pnpm@10.17.0"
 }
