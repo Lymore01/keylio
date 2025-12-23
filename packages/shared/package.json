@@ -2,18 +2,24 @@
   "name": "@keylio/shared",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "clean": "rimraf dist coverage"
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist coverage .turbo"
   },
+  "private": "true",
   "keywords": [],
   "exports": {
-    "./tsconfig/base": "./tsconfig/base.json",
-    "./tsconfig/next": "./tsconfig/next.json",
-    "./config": "./config.ts",
-    "./constants": "./constants.ts"
+    "./tsconfig/base": "./src/tsconfig/base.json",
+    "./tsconfig/next": "./src/tsconfig/next.json",
+    "./config": "./src/config.ts",
+    "./constants": "./src/constants.ts",
+    "./utils": "./src/utils/index.ts"
   },
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.17.0"
+  "packageManager": "pnpm@10.17.0",
+  "devDependencies": {
+    "@keylio/types": "workspace:*"
+  }
 }

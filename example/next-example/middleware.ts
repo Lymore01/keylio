@@ -1,5 +1,5 @@
+import { getToken } from "keylio/react";
 import { type NextRequest, NextResponse } from "next/server";
-import { getToken } from "../../packages/react/src/utils/index";
 
 const privateRoutePattern = /^\/protected(\/|$)/;
 const publicRoutePattern = /^\/auth(\/|$)/;

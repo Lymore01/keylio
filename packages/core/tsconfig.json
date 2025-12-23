@@ -1,9 +1,10 @@
 {
-  "extends": "../shared/tsconfig/base",
+  "extends": "../shared/src/tsconfig/base",
   "include": ["src"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"],
   "compilerOptions": {
     "composite": true,
-    "rootDir": "src"
+    "rootDir": "src",
+    "outDir": "dist"
   }
 }

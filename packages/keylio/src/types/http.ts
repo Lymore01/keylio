@@ -1,5 +1,3 @@
-import { Cookie } from "../config";
-
 export type HttpRequest = {
   method: string;
   url: string;

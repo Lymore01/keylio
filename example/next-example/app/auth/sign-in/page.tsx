@@ -1,12 +1,9 @@
 "use client";
 
+import type { SignInInput } from "@keylio/types";
+import { signIn, signOut } from "keylio/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type { SignInInput } from "../../../../../packages/keylio/src/config"; // @keylio/auth/config
-import {
-  signIn,
-  signOut,
-} from "../../../../../packages/react/src/methods/index"; //@keylio/react
 
 export default function SignUp() {
   const [email, setEmail] = useState("");

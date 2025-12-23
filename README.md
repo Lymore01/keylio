@@ -1,6 +1,6 @@
 # Keylio Auth
 
-A modular, framework‑agnostic authentication system built for modern web apps.  
+A modular, framework‑agnostic authentication system built for modern web apps.
 Inspired by NextAuth and BetterAuth, but designed to be **simpler, cleaner, and more extensible**.
 
 ---
@@ -13,9 +13,9 @@ Keylio is fully configurable. Here’s a minimal setup using Prisma + PostgreSQL
 
 ```ts
 // ./keylio.ts
-import { prismaAdapter } from "@keylio/core/adapters";
-import { Keylio } from "@keylio/auth";
-import { KeylioConfig } from "@keylio/config";
+import { prismaAdapter } from "keylio/adapters/prisma";
+import { Keylio } from "keylio";
+import { KeylioConfig } from "keylio/types";
 import { prisma } from "@prisma/client";
 
 const authOptions: KeylioConfig = {
@@ -47,4 +47,5 @@ export const { GET, POST } = KeylioNextHandler(keylio);
 ```
 
 ---
+
 Built by yours truly 😁

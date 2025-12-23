@@ -1,13 +1,19 @@
-import type { AuthDataMap, AuthOptions, KeylioAuthConfig, KeylioConfig, SignInInput } from "../config";
-import { signInUsingCredentials } from "../providers/credentials/sign-in";
-import { signUpUsingCredentials } from "../providers/credentials/sign-up";
-import type { HttpRequest } from "../types/http";
-import { AuthError } from "@keylio/core/errors";
-import { verifyJwtToken } from "@keylio/core/jwt";
-import type { SessionType, UserType } from "../types/auth";
-import { SESSION_KEY } from "@keylio/shared/constants";
 import { deleteJwtSessionCookie } from "@keylio/core/cookies";
-import { createKeylioConfig } from "../utils";
+import { verifyJwtToken } from "@keylio/core/jwt";
+import { SESSION_KEY } from "@keylio/shared/constants";
+import { createKeylioConfig } from "@keylio/shared/utils";
+import type {
+  AuthDataMap,
+  AuthOptions,
+  KeylioAuthConfig,
+  KeylioConfig,
+  SignInInput,
+} from "@keylio/types";
+import { AuthError } from "../adapters/errors.js";
+import { signInUsingCredentials } from "../providers/credentials/sign-in.js";
+import { signUpUsingCredentials } from "../providers/credentials/sign-up.js";
+import type { SessionType, UserType } from "../types/auth.js";
+import type { HttpRequest } from "../types/http.js";
 
 /**
  * Main authentication client for Keylio.

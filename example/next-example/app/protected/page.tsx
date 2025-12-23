@@ -1,7 +1,6 @@
-'use client';
-import { useEffect } from 'react';
-import { signOut } from '../../../../packages/react/src/methods';
-import { getToken } from '../../../../packages/react/src/utils/getToken';
+"use client";
+import { getToken, signOut } from "keylio/react";
+import { useEffect } from "react";
 
 export default function Protected() {
   useEffect(() => {

@@ -1,8 +1,33 @@
 {
-  "extends": "../shared/tsconfig/base.json",
-  "include": ["*.ts", "src"],
-  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
+    /* Output */
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "outDir": "dist",
+
+    /* Module Resolution */
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    "paths": {
+      "*": ["./src/*"]
+    },
+
+    "jsx": "react-jsx",
+
     "composite": true
-  }
+  },
+  "include": ["src"],
+  "exclude": ["dist", "node_modules"]
 }

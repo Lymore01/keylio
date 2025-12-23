@@ -1,11 +1,11 @@
-import bcrypt from "bcrypt";
-import type { DBAdapter } from "@keylio/core/adapters";
-import { AuthError } from "@keylio/core/errors";
-import { jwtSign } from "@keylio/core/jwt";
 import { createJwtSessionCookie } from "@keylio/core/cookies";
-import type { AuthDataMap, Cookie, SessionOptions } from "../../config";
-import type { SessionType, UserType } from "../../types/auth";
+import { jwtSign } from "@keylio/core/jwt";
+import type { AuthDataMap, SessionOptions } from "@keylio/types";
+import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
+import { AuthError } from "../../adapters/errors.js";
+import type { DBAdapter } from "../../adapters/index.js";
+import type { SessionType, UserType } from "../../types/auth.js";
 
 export async function signInUsingCredentials(
   data: AuthDataMap["credentials"],
@@ -54,8 +54,6 @@ export async function signInUsingCredentials(
     exp: now + maxAge!,
   };
 
-
-
   const token = await jwtSign(tokenPayload, sessionOptions);
 
   switch (strategy) {
@@ -97,7 +95,7 @@ export async function signInUsingCredentials(
         id: undefined,
         sessionToken: newSessionToken,
         userId: user.id,
-        expires: new Date(Date.now() + maxAge!*1000),
+        expires: new Date(Date.now() + maxAge! * 1000),
       });
 
       await createJwtSessionCookie(newSessionToken, sessionOptions, cookies);

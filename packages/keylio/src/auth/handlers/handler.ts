@@ -1,6 +1,6 @@
-import type { HttpRequest, HttpResponse } from "../../types/http";
-import type { Keylio } from "../Keylio";
-import { handleGET, handlePOST } from "../routes";
+import type { HttpRequest, HttpResponse } from "../../types/http.js";
+import type { Keylio } from "../Keylio.js";
+import { handleGET, handlePOST } from "../routes/index.js";
 
 export function KeylioHandler(keylio: Keylio) {
   async function handleRequest(req: HttpRequest): Promise<HttpResponse> {

@@ -1,13 +1,20 @@
 {
   "name": "@keylio/types",
-  "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "clean": "rimraf dist coverage"
+    "clean": "rimraf dist coverage",
+    "build": "tsc -p tsconfig.json"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "types": "./dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "default": "./dist/src/index.d.ts"
+    }
+  },
   "packageManager": "pnpm@10.17.0"
 }

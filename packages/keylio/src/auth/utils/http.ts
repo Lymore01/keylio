@@ -1,4 +1,4 @@
-import type { HttpResponse } from "../../types/http";
+import type { HttpResponse } from "../../types/http.js";
 
 export function jsonResponse(
   body: Record<string, any>,

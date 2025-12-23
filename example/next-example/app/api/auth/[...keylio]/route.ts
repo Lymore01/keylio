@@ -1,4 +1,4 @@
 import { keylio } from "@/utils/auth";
-import { KeylioNextHandler } from "../../../../../../packages/next/src/index";
+import { KeylioNextHandler } from "keylio/next";
 
 export const { GET, POST } = KeylioNextHandler(keylio);

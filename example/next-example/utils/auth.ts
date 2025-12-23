@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { prismaAdapter } from "../../../packages/core/src/adapters/prisma-adapter/prisma-adapter"; // @keylio/core/adapters
-import { Keylio } from "../../../packages/keylio/src/auth/Keylio"; // @keylio/auth
-import type { KeylioAuthConfig } from "../../../packages/keylio/src/config"; // @keylio/auth/config
+import type { KeylioAuthConfig } from "@keylio/types";
+import { Keylio } from "keylio";
+import { prismaAdapter } from "keylio/adapters/prisma";
 
 const authOptions: KeylioAuthConfig = {
   adapter: prismaAdapter(prisma),

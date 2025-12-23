@@ -1,6 +1,6 @@
-import type { Keylio } from "../Keylio";
-import type { HttpRequest, HttpResponse } from "../../types/http";
-import { jsonResponse } from "../utils/http";
+import type { HttpRequest, HttpResponse } from "../../types/http.js";
+import type { Keylio } from "../Keylio.js";
+import { jsonResponse } from "../utils/http.js";
 
 export async function handleGET(
   req: HttpRequest,

@@ -2,16 +2,15 @@
   "name": "@keylio/core",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "private": "true",
   "scripts": {
     "test": "vitest run",
-    "clean": "rimraf dist coverage"
+    "clean": "rimraf dist coverage",
+    "build": "tsc -p tsconfig.json"
   },
   "author": "",
   "exports": {
-    "./adapters": "./src/adapters/index.ts",
-    "./adapters/prisma": "./src/adapters/prisma-adapter/index.ts",
-    "./adapters/mongodb": "./src//adapters/mongodb-adapter/index.ts",
     "./jwt": "./src/token/jwt.ts",
     "./errors": "./src/errors.ts",
     "./cookies": "./src/cookies/index.ts"
@@ -20,6 +19,7 @@
   "packageManager": "pnpm@10.17.0",
   "dependencies": {
     "@keylio/db": "workspace:*",
-    "@keylio/shared": "workspace:*"
+    "@keylio/shared": "workspace:*",
+    "@keylio/types": "workspace:*"
   }
 }

@@ -1,4 +1,4 @@
-import type { SessionOptions } from "@keylio/auth/config";
+import type { SessionOptions } from "@keylio/types";
 import { describe, expect, it } from "vitest";
 import * as jwtUtils from "./jwt";
 

@@ -1,24 +1,111 @@
 {
-  "name": "@keylio/auth",
+  "name": "keylio",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "scripts": {
-    "test": "vitest run",
-    "clean": "rimraf dist coverage"
+  "description": "Universal auth package for Typescript.",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://keylio.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lymore01/keylio.git",
+    "directory": "packages/keylio"
   },
-  "packageManager": "pnpm@10.17.0",
+  "keywords": [
+    "auth",
+    "typescript",
+    "nextjs",
+    "react",
+    "mongodb",
+    "prisma",
+    "oauth",
+    "security",
+    "social"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/auth/Keylio.js",
+  "module": "./dist/auth/Keylio.js",
+  "types": "./dist/auth/Keylio.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist coverage",
+    "prepublishOnly": "pnpm run clean && pnpm run build",
+    "test": "vitest run"
+  },
   "exports": {
-    ".": "./src/auth/index.ts",
-    "./config": "./src/config.ts",
-    "./utils": "./src/utils/index.ts"
+    ".": {
+      "import": "./dist/auth/Keylio.js",
+      "types": "./dist/auth/Keylio.d.ts",
+      "default": "./dist/auth/Keylio.js"
+    },
+    "./react": {
+      "import": "./dist/client/react/src/index.js",
+      "types": "./dist/client/react/src/index.d.ts",
+      "default": "./dist/client/react/index.js"
+    },
+    "./next": {
+      "import": "./dist/client/next/src/index.js",
+      "types": "./dist/client/next/src/index.d.ts",
+      "default": "./dist/client/next/index.js"
+    },
+    "./adapters/prisma": {
+      "import": "./dist/adapters/prisma-adapter/index.js",
+      "types": "./dist/adapters/prisma-adapter/index.d.ts",
+      "default": "./dist/adapters/prisma-adapter/index.js"
+    },
+    "./adapters/mongodb": {
+      "import": "./dist/adapters/mongodb-adapter/index.js",
+      "types": "./dist/adapters/mongodb-adapter/index.d.ts",
+      "default": "./dist/adapters/mongodb-adapter/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/index.d.ts"
+      ],
+      "react": [
+        "./dist/client/react/index.d.ts"
+      ],
+      "next": [
+        "./dist/client/next/index.d.ts"
+      ],
+      "adapters/prisma": [
+        "./dist/adapters/prisma-adapter/index.d.ts"
+      ],
+      "adapters/mongodb": [
+        "./dist/adapters/mongodb-adapter/index.d.ts"
+      ]
+    }
   },
   "dependencies": {
+    "@keylio/core": "workspace:*",
     "@keylio/db": "workspace:*",
     "@keylio/shared": "workspace:*",
-    "@keylio/core": "workspace:*"
-  }
+    "@keylio/types": "workspace:*",
+    "react": "19.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "next": ">=16.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15",
+    "rimraf": "^6.1.2"
+  },
+  "packageManager": "pnpm@10.17.0"
 }

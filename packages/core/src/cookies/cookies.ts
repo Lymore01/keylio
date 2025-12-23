@@ -1,6 +1,6 @@
-import type { SessionOptions } from "@keylio/auth/config";
 import { SESSION_KEY } from "@keylio/shared/constants";
-import { withDefaults } from "@keylio/auth/utils";
+import { withDefaults } from "@keylio/shared/utils";
+import { SessionOptions } from "@keylio/types";
 
 /**
  * Creates and stores a JWT session cookie in either the browser or server environment
