@@ -54,6 +54,12 @@ importers:
 
   e2e/integration: {}
 
+  ex2:
+    dependencies:
+      keylio:
+        specifier: https://raw.githubusercontent.com/Lymore01/keylio/main/packages/keylio/keylio-0.1.0.tgz
+        version: https://raw.githubusercontent.com/Lymore01/keylio/main/packages/keylio/keylio-0.1.0.tgz(next@16.0.1(@playwright/test@1.56.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+
   example/next-example:
     dependencies:
       '@keylio/types':
@@ -2144,6 +2150,18 @@ packages:
 
   keylio@file:packages/keylio/keylio-0.1.0.tgz:
     resolution: {integrity: sha512-1oCyn5XYm5S8L6/6NpU7n+MPKdCGaY/jZ4UYm5BOwvUzYa7dkNFL0DmGR8EXJv8VZQQX9IM3IFOdLZ6yILtqzQ==, tarball: file:packages/keylio/keylio-0.1.0.tgz}
+    version: 0.1.0
+    peerDependencies:
+      next: '>=16.0.0'
+      react: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      next:
+        optional: true
+      react:
+        optional: true
+
+  keylio@https://raw.githubusercontent.com/Lymore01/keylio/main/packages/keylio/keylio-0.1.0.tgz:
+    resolution: {tarball: https://raw.githubusercontent.com/Lymore01/keylio/main/packages/keylio/keylio-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       next: '>=16.0.0'
@@ -5179,6 +5197,11 @@ snapshots:
       next: 16.0.1(@babel/core@7.28.5)(@playwright/test@1.56.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react: 19.2.0
 
+  keylio@https://raw.githubusercontent.com/Lymore01/keylio/main/packages/keylio/keylio-0.1.0.tgz(next@16.0.1(@playwright/test@1.56.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
+    optionalDependencies:
+      next: 16.0.1(@playwright/test@1.56.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react: 19.2.0
+
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
@@ -5348,6 +5371,31 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+
+  next@16.0.1(@playwright/test@1.56.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+    dependencies:
+      '@next/env': 16.0.1
+      '@swc/helpers': 0.5.15
+      caniuse-lite: 1.0.30001761
+      postcss: 8.4.31
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      styled-jsx: 5.1.6(react@19.2.0)
+    optionalDependencies:
+      '@next/swc-darwin-arm64': 16.0.1
+      '@next/swc-darwin-x64': 16.0.1
+      '@next/swc-linux-arm64-gnu': 16.0.1
+      '@next/swc-linux-arm64-musl': 16.0.1
+      '@next/swc-linux-x64-gnu': 16.0.1
+      '@next/swc-linux-x64-musl': 16.0.1
+      '@next/swc-win32-arm64-msvc': 16.0.1
+      '@next/swc-win32-x64-msvc': 16.0.1
+      '@playwright/test': 1.56.1
+      sharp: 0.34.5
+    transitivePeerDependencies:
+      - '@babel/core'
+      - babel-plugin-macros
+    optional: true
 
   node-addon-api@8.5.0: {}
 
@@ -5809,6 +5857,12 @@ snapshots:
       react: 19.2.0
     optionalDependencies:
       '@babel/core': 7.28.5
+
+  styled-jsx@5.1.6(react@19.2.0):
+    dependencies:
+      client-only: 0.0.1
+      react: 19.2.0
+    optional: true
 
   supports-color@7.2.0:
     dependencies:
