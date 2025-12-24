@@ -1,17 +1,11 @@
 {
-  "extends": "../shared/src/tsconfig/base.json",
+  "extends": "../shared/src/tsconfig/base",
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+    "composite": true,
+    "rootDir": "src",
     "outDir": "dist",
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

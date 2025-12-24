@@ -32,7 +32,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "clean": "rimraf dist coverage",
+    "clean": "rimraf dist coverage .turbo",
     "prepublishOnly": "pnpm run clean && pnpm run build",
     "test": "vitest run"
   },
@@ -61,25 +61,11 @@
       "import": "./dist/adapters/mongodb-adapter/index.js",
       "types": "./dist/adapters/mongodb-adapter/index.d.ts",
       "default": "./dist/adapters/mongodb-adapter/index.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/index.d.ts"
-      ],
-      "react": [
-        "./dist/client/react/index.d.ts"
-      ],
-      "next": [
-        "./dist/client/next/index.d.ts"
-      ],
-      "adapters/prisma": [
-        "./dist/adapters/prisma-adapter/index.d.ts"
-      ],
-      "adapters/mongodb": [
-        "./dist/adapters/mongodb-adapter/index.d.ts"
-      ]
+    },
+    "./types": {
+      "import": "./dist/types/keylio-types.js",
+      "types": "./dist/types/keylio-types.d.ts",
+      "default": "./dist/types/keylio-types.js"
     }
   },
   "dependencies": {

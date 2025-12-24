@@ -9,7 +9,8 @@
     "test:ui": "vitest --ui",
     "web:example": "pnpm --filter @example/next dev",
     "e2e:integration": "pnpm --filter integration e2e:integration",
-    "e2e:integration:report": "pnpm --filter integration e2e:integration:report"
+    "e2e:integration:report": "pnpm --filter integration e2e:integration:report",
+    "clean": "rimraf .turbo"
   },
   "keywords": [],
   "author": "",

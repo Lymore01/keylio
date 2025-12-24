@@ -2143,7 +2143,7 @@ packages:
     resolution: {integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==}
 
   keylio@file:packages/keylio/keylio-0.1.0.tgz:
-    resolution: {integrity: sha512-9P5gRE4ZhK/dC8gqHWCjUcmPqVE0QlPWucMzLb7e1iFvhLhOuevqk271N6d7JyoVW2y3PxQRGWh4sMC4vmrBNA==, tarball: file:packages/keylio/keylio-0.1.0.tgz}
+    resolution: {integrity: sha512-1oCyn5XYm5S8L6/6NpU7n+MPKdCGaY/jZ4UYm5BOwvUzYa7dkNFL0DmGR8EXJv8VZQQX9IM3IFOdLZ6yILtqzQ==, tarball: file:packages/keylio/keylio-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       next: '>=16.0.0'
