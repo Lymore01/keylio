@@ -10,6 +10,7 @@
     "web:example": "pnpm --filter @example/next dev",
     "e2e:integration": "pnpm --filter integration e2e:integration",
     "e2e:integration:report": "pnpm --filter integration e2e:integration:report",
+    "dev:docs": "pnpm --filter @keylio/docs dev",
     "clean": "rimraf .turbo"
   },
   "keywords": [],

@@ -1,0 +1,140 @@
+---
+title: Basic Usage
+description: Configuration and usage guide for Keylio
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
+## Server Configuration
+
+Follow the steps below to configure Keylio in your project.
+
+<Steps>
+  <Step title="Create a shared authentication utility">
+    Create a reusable authentication file (for example, `utils/auth.ts`) to initialize Keylio.
+
+    ```typescript title="utils/auth.ts"
+    import { prisma } from "@/lib/prisma";
+    import { Keylio } from "keylio";
+    import { prismaAdapter } from "keylio/adapters/prisma";
+    import type { KeylioAuthConfig } from "keylio/types";
+
+    const authOptions: KeylioAuthConfig = {
+      adapter: prismaAdapter(prisma),
+      session: {
+        secret: process.env.AUTH_SECRET || "default_secret",
+      },
+    };
+
+    const keylio = new Keylio(authOptions);
+
+    export { authOptions, keylio };
+    ```
+  </Step>
+
+  <Step title="Configure environment variables">
+    Define the required environment variable in your `.env` file.
+
+    ```bash title=".env"
+    AUTH_SECRET=your_secure_random_secret
+    ```
+
+    <Callout type="warning">
+      Always use a strong, unpredictable secret in production environments.
+    </Callout>
+  </Step>
+
+  <Step title="Attach Keylio to your API route">
+    Use the Next.js handler to connect Keylio to your route (for example, `app/api/auth/route.ts`).
+
+    ```typescript title="app/api/auth/route.ts"
+    import { keylio } from "@/utils/auth";
+    import { KeylioNextHandler } from "keylio/next";
+
+    export const { GET, POST } = KeylioNextHandler(keylio);
+    ```
+
+    This exposes standardized authentication endpoints compatible with the Next.js App Router.
+  </Step>
+</Steps>
+
+---
+
+## Client Configuration
+
+To enable session management in your React components, you must wrap your application with the `KeylioSessionProvider`.
+
+<Steps>
+  <Step title="Create a Providers Component">
+    Since the provider uses React Context, it must be a Client Component. Create a wrapper if you are using Next.js App Router.
+
+    ```tsx title="app/providers.tsx"
+    "use client";
+
+    import { KeylioSessionProvider } from "keylio/react";
+
+    export function Providers({ children }: { children: React.ReactNode }) {
+      return (
+        <KeylioSessionProvider>
+          {children}
+        </KeylioSessionProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Wrap Your Application">
+    Import and use the providers in your root layout.
+
+    ```tsx title="app/layout.tsx"
+    import { Providers } from "./providers";
+
+    export default function RootLayout({ children }: { children: React.ReactNode }) {
+      return (
+        <html lang="en">
+          <body>
+            <Providers>{children}</Providers>
+          </body>
+        </html>
+      );
+    }
+    ```
+  </Step>
+</Steps>
+
+## Using the Hook
+
+The `useSession` hook provides access to the current user's session, authentication status, and helper methods.
+
+```tsx title="components/dashboard.tsx"
+"use client";
+
+import { useSession } from "keylio/react";
+
+export function Dashboard() {
+  const { data, status, signOut, refresh } = useSession();
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    return <p>Access Denied</p>;
+  }
+
+  return (
+    <div>
+      <h1>Welcome back, {data?.user.name}</h1>
+      <button onClick={() => refresh()}>Refresh Session</button>
+      <button onClick={() => signOut()}>Sign Out</button>
+    </div>
+  );
+}
+```
+
+<Callout type="warn">
+  `useSession` must be used within a component wrapped by `KeylioSessionProvider`. If used outside, it will throw an error.
+</Callout>
+
