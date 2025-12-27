@@ -10,7 +10,7 @@ import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
+export default async function Page(props: PageProps<"/docs/[...slug]">) {
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
@@ -38,7 +38,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<"/docs/[[...slug]]">
+  props: PageProps<"/docs/[...slug]">
 ): Promise<Metadata> {
   const params = await props.params;
   const page = source.getPage(params.slug);
@@ -48,6 +48,10 @@ export async function generateMetadata(
     title: `${page.data.title} | Keylio`,
     description: page.data.description,
     openGraph: {
+      images: getPageImage(page).url,
+    },
+    twitter: {
+      card: "summary_large_image",
       images: getPageImage(page).url,
     },
   };
