@@ -11,7 +11,7 @@
   <p align="center">
     A modular, framework-agnostic authentication system for TypeScript
     <br />
-    <a href="https://keylio.com"><strong>Learn more »</strong></a>
+    <a href="https://keylio.vercel.app"><strong>Learn more »</strong></a>
     <br />
     <br />
     <a href="https://github.com/lymore01/keylio">GitHub</a>
