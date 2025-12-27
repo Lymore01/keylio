@@ -2,10 +2,16 @@
   "extends": "../shared/src/tsconfig/base",
   "compilerOptions": {
     "composite": true,
-    "rootDir": "src",
+    "jsx": "react-jsx",
     "outDir": "dist",
-    "jsx": "react-jsx"
+    "rootDir": "src"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../db" },
+    { "path": "../shared" },
+    { "path": "../types" }
+  ]
 }

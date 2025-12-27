@@ -24,56 +24,57 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "./dist/auth/Keylio.js",
-  "module": "./dist/auth/Keylio.js",
-  "types": "./dist/auth/Keylio.d.ts",
+  "main": "./dist/auth/Keylio.mjs",
+  "module": "./dist/auth/Keylio.mjs",
+  "types": "./dist/auth/Keylio.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsdown",
     "clean": "rimraf dist coverage .turbo",
     "prepublishOnly": "pnpm run clean && pnpm run build",
-    "test": "vitest run"
+    "test:adapters": "vitest run adapters",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "exports": {
     ".": {
-      "import": "./dist/auth/Keylio.js",
-      "types": "./dist/auth/Keylio.d.ts",
-      "default": "./dist/auth/Keylio.js"
+      "import": "./dist/auth/Keylio.mjs",
+      "types": "./dist/auth/Keylio.d.mts",
+      "default": "./dist/auth/Keylio.mjs"
     },
     "./react": {
-      "import": "./dist/client/react/src/index.js",
-      "types": "./dist/client/react/src/index.d.ts",
-      "default": "./dist/client/react/index.js"
+      "import": "./dist/client/react/src/index.mjs",
+      "types": "./dist/client/react/src/index.d.mts",
+      "default": "./dist/client/react/index.mjs"
     },
     "./next": {
-      "import": "./dist/client/next/src/index.js",
-      "types": "./dist/client/next/src/index.d.ts",
-      "default": "./dist/client/next/index.js"
+      "import": "./dist/client/next/src/index.mjs",
+      "types": "./dist/client/next/src/index.d.mts",
+      "default": "./dist/client/next/index.mjs"
     },
     "./adapters/prisma": {
-      "import": "./dist/adapters/prisma-adapter/index.js",
-      "types": "./dist/adapters/prisma-adapter/index.d.ts",
-      "default": "./dist/adapters/prisma-adapter/index.js"
+      "import": "./dist/adapters/prisma-adapter/index.mjs",
+      "types": "./dist/adapters/prisma-adapter/index.d.mts",
+      "default": "./dist/adapters/prisma-adapter/index.mjs"
     },
     "./adapters/mongodb": {
-      "import": "./dist/adapters/mongodb-adapter/index.js",
-      "types": "./dist/adapters/mongodb-adapter/index.d.ts",
-      "default": "./dist/adapters/mongodb-adapter/index.js"
+      "import": "./dist/adapters/mongodb-adapter/index.mjs",
+      "types": "./dist/adapters/mongodb-adapter/index.d.mts",
+      "default": "./dist/adapters/mongodb-adapter/index.mjs"
     },
     "./types": {
-      "import": "./dist/types/keylio-types.js",
-      "types": "./dist/types/keylio-types.d.ts",
-      "default": "./dist/types/keylio-types.js"
+      "import": "./dist/types/keylio-types.mjs",
+      "types": "./dist/types/keylio-types.d.mts",
+      "default": "./dist/types/keylio-types.mjs"
     }
   },
   "dependencies": {
     "react": "19.2.0"
   },
   "peerDependencies": {
-    "react": "^18.0.0 || ^19.0.0",
-    "next": ">=16.0.0"
+    "next": ">=16.0.0",
+    "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -84,14 +85,15 @@
     }
   },
   "devDependencies": {
-    "@types/react": "^19.2.2",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.15",
-    "rimraf": "^6.1.2",
     "@keylio/core": "workspace:*",
     "@keylio/db": "workspace:*",
     "@keylio/shared": "workspace:*",
-    "@keylio/types": "workspace:*"
+    "@keylio/types": "workspace:*",
+    "@types/react": "^19.2.2",
+    "rimraf": "^6.1.2",
+    "tsdown": "^0.18.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15"
   },
   "packageManager": "pnpm@10.17.0"
 }

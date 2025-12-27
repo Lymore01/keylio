@@ -6,7 +6,6 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui",
     "web:example": "pnpm --filter @example/next dev",
     "e2e:integration": "pnpm --filter integration e2e:integration",
     "e2e:integration:report": "pnpm --filter integration e2e:integration:report",
