@@ -11,7 +11,7 @@
   <p align="center">
     A modular, framework-agnostic authentication system for TypeScript
     <br />
-    <a href="https://keylio.vercel.app"><strong>Learn more »</strong></a>
+    <a href="https://keylio-auth.vercel.app"><strong>Learn more »</strong></a>
     <br />
     <br />
     <a href="https://github.com/lymore01/keylio">GitHub</a>
@@ -25,4 +25,4 @@
 pnpm install keylio@beta
 ```
 
-Read the [Installation Guide](https://keylio.vercel.app/docs/installation) to learn more.
+Read the [Installation Guide](https://keylio-auth.vercel.app/docs/installation) to learn more.

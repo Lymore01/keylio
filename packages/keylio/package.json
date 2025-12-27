@@ -4,7 +4,7 @@
   "description": "A modular, framework-agnostic authentication system for TypeScript",
   "license": "MIT",
   "type": "module",
-  "homepage": "https://keylio.vercel.app",
+  "homepage": "https://keylio-auth.vercel.app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lymore01/keylio.git",
