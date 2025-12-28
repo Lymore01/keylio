@@ -1,35 +1,15 @@
 "use client";
 
-import { getToken, signOut } from "keylio/react";
+import { useSession } from "keylio/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function Protected() {
-  const [status, setStatus] = useState<"loading" | "authenticated" | "error">(
-    "loading"
-  );
+  const { data, status, signOut } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    async function checkAuth() {
-      try {
-        const token = await getToken();
-
-        if (!token) {
-          setStatus("error");
-          router.push("/signin");
-          return;
-        }
-
-        setStatus("authenticated");
-      } catch {
-        setStatus("error");
-        router.push("/signin");
-      }
-    }
-
-    checkAuth();
-  }, [router]);
+  if (status === "unauthenticated") {
+    router.push("/auth/sign-in");
+  }
 
   if (status === "loading") {
     return (
@@ -50,6 +30,11 @@ export default function Protected() {
           <h1 className="text-2xl font-semibold text-white">
             You&apos;re authenticated
           </h1>
+
+          <p>
+            Welcome back,{" "}
+            <span className="font-medium text-white">{data?.user?.email}</span>
+          </p>
 
           <p className="text-sm text-zinc-400">
             This page is protected by{" "}

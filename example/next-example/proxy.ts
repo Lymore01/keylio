@@ -1,10 +1,10 @@
-import { getToken } from "keylio/react";
+import { getToken } from "keylio/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
 const privateRoutePattern = /^\/protected(\/|$)/;
 const publicRoutePattern = /^\/auth(\/|$)/;
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const response = (await middlewareAuth(req)) ?? NextResponse.next();
   return response;
 }

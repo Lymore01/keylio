@@ -26,7 +26,7 @@ model User {
   @@map("users")
 }
 
-// keylio specific models - add to docs
+// keylio specific models
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique @map("session_token")

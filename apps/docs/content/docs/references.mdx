@@ -127,10 +127,12 @@ The primary configuration object for initializing Keylio.
     adapter: {
       description: 'Database adapter instance (e.g., Prisma, MongoDB). Required.',
       type: 'DBAdapter',
+      required: true,
     },
     session: {
       description: 'Session configuration. The `secret` field is required.',
       type: 'SessionOptions',
+      required: true,
     },
     auth: {
       description: 'Configuration for authentication providers (Credentials, OAuth, Phone).',
@@ -166,6 +168,7 @@ The primary configuration object for initializing Keylio.
     secret: {
       description: 'Secret key for signing tokens. Required.',
       type: 'string',
+      required: true,
     },
     maxAge: {
       description: 'Time in seconds until the session expires. Default is 1 day (86400).',

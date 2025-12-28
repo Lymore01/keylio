@@ -32,7 +32,7 @@ export async function signInUsingCredentials(
   if (!user) {
     throw new AuthError({
       message: "Invalid email or password.",
-      code: "INVALID_CREDENTIALS",
+      code: "INVALID_CREDENTIALSxxxxx",
     });
   }
 

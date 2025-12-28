@@ -1,3 +1,4 @@
+import { KeylioSessionProvider } from "keylio/react";
 import { Metadata } from "next";
 import "./globals.css";
 // import { Geist, Geist_Mono } from "next/font/google";
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>{children}</body>
+      <body className={`antialiased`}>
+        <KeylioSessionProvider>{children}</KeylioSessionProvider>
+      </body>
     </html>
   );
 }

@@ -56,7 +56,9 @@ export async function handlePOST(
 
     return jsonResponse({ error: "Unknown route" }, 404);
   } catch (err: any) {
-    console.error("POST error:", err);
+    if (process.env.NODE_ENV === "development") {
+      console.error("[Auth Error]", err.code || err.message);
+    }
     return jsonResponse({ error: err.message || "Internal Server Error" }, 500);
   }
 }

@@ -25,6 +25,7 @@ export default function SignUp() {
 
       const result = await signUp(input);
       setMessage(`Account created for ${result.user.email}`);
+
       router.push("/protected");
     } catch (err: unknown) {
       setMessage(err instanceof Error ? err.message : "Failed to sign up");
@@ -48,6 +49,7 @@ export default function SignUp() {
             <label className="block text-sm text-zinc-300 mb-1">Email</label>
             <input
               type="email"
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -64,6 +66,7 @@ export default function SignUp() {
             <label className="block text-sm text-zinc-300 mb-1">Password</label>
             <input
               type="password"
+              id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required

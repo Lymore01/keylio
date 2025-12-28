@@ -32,6 +32,7 @@
   ],
   "scripts": {
     "build": "tsdown",
+    "dev": "tsdown --watch",
     "clean": "rimraf dist coverage .turbo",
     "prepublishOnly": "pnpm run clean && pnpm run build",
     "test:adapters": "vitest run adapters",
@@ -39,42 +40,61 @@
   },
   "exports": {
     ".": {
+      "dev-source": "./src/auth/Keylio.ts",
       "import": "./dist/auth/Keylio.mjs",
       "types": "./dist/auth/Keylio.d.mts",
-      "default": "./dist/auth/Keylio.mjs"
+      "default": "./dist/auth/Keylio.mjs",
+      "require": "./dist/auth/Keylio.cjs"
+    },
+    "./cookies": {
+      "dev-source": "./src/cookies/index.ts",
+      "import": "./dist/client/cookies/src/index.mjs",
+      "types": "./dist/client/cookies/src/index.d.mts",
+      "default": "./dist/client/cookies/src/index.mjs",
+      "require": "./dist/client/cookies/src/index.cjs"
     },
     "./react": {
+      "dev-source": "./src/client/react/index.ts",
       "import": "./dist/client/react/src/index.mjs",
       "types": "./dist/client/react/src/index.d.mts",
-      "default": "./dist/client/react/index.mjs"
+      "default": "./dist/client/react/index.mjs",
+      "require": "./dist/client/react/index.cjs"
     },
     "./next": {
+      "dev-source": "./src/client/next/index.ts",
       "import": "./dist/client/next/src/index.mjs",
       "types": "./dist/client/next/src/index.d.mts",
-      "default": "./dist/client/next/index.mjs"
+      "default": "./dist/client/next/index.mjs",
+      "require": "./dist/client/next/index.cjs"
     },
     "./adapters/prisma": {
+      "dev-source": "./src/adapters/prisma/index.ts",
       "import": "./dist/adapters/prisma-adapter/index.mjs",
       "types": "./dist/adapters/prisma-adapter/index.d.mts",
-      "default": "./dist/adapters/prisma-adapter/index.mjs"
+      "default": "./dist/adapters/prisma-adapter/index.mjs",
+      "require": "./dist/adapters/prisma-adapter/index.cjs"
     },
     "./adapters/mongodb": {
+      "dev-source": "./src/adapters/mongodb/index.ts",
       "import": "./dist/adapters/mongodb-adapter/index.mjs",
       "types": "./dist/adapters/mongodb-adapter/index.d.mts",
-      "default": "./dist/adapters/mongodb-adapter/index.mjs"
+      "default": "./dist/adapters/mongodb-adapter/index.mjs",
+      "require": "./dist/adapters/mongodb-adapter/index.cjs"
     },
     "./types": {
+      "dev-source": "./src/types/keylio-types.ts",
       "import": "./dist/types/keylio-types.mjs",
       "types": "./dist/types/keylio-types.d.mts",
-      "default": "./dist/types/keylio-types.mjs"
+      "default": "./dist/types/keylio-types.mjs",
+      "require": "./dist/types/keylio-types.cjs"
     }
   },
-  "dependencies": {
-    "react": "19.2.0"
-  },
   "peerDependencies": {
-    "next": ">=16.0.0",
-    "react": "^18.0.0 || ^19.0.0"
+    "next": "^14.0.0 || ^15.0.0 || ^16.0.0",
+    "pg": "^8.0.0",
+    "prisma": "^5.0.0 || ^6.0.0 || ^7.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -90,10 +110,12 @@
     "@keylio/shared": "workspace:*",
     "@keylio/types": "workspace:*",
     "@types/react": "^19.2.2",
+    "react": "19.2.0",
     "rimraf": "^6.1.2",
     "tsdown": "^0.18.3",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.15"
+    "vitest": "^4.0.15",
+    "next": "^16.0.3"
   },
   "packageManager": "pnpm@10.17.0"
 }

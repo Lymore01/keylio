@@ -1,16 +1,17 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testMatch: '**/e2e/**/*.spec.ts',
+  testMatch: "**/e2e/**/*.spec.ts",
   fullyParallel: true,
-  reporter: 'html',
+  reporter: "html",
   use: {
-    trace: 'on-first-retry',
+    trace: "on-first-retry",
+    headless: true,
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
 });

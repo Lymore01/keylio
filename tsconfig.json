@@ -8,6 +8,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "keylio/*": ["./packages/keylio/src/*"]
+    }
   }
 }

@@ -5,7 +5,11 @@ import {
   type Document,
   type MongoClient,
 } from "@keylio/db/mongodb";
-import { DBAdapter, QueryOptions, Where } from "../adapter-factory/types.js";
+import type {
+  DBAdapter,
+  QueryOptions,
+  Where,
+} from "../adapter-factory/types.js";
 
 export interface MongoDbAdapterConfig {
   client?: MongoClient | undefined;

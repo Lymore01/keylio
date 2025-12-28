@@ -7,12 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "clean": "rimraf .next"
+    "clean": "rimraf .next node_modules/.cache"
   },
   "dependencies": {
     "@keylio/types": "workspace:*",
     "@prisma/client": "^6.19.0",
     "keylio": "file:..\\..\\packages\\keylio\\keylio-0.1.0-beta.1.tgz",
+    "next": "16.0.10",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
@@ -22,7 +23,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.3",
+    "eslint-config-next": "16.0.10",
     "prisma": "^6.19.0",
     "tailwindcss": "^4",
     "typescript": "^5"

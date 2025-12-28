@@ -6,6 +6,9 @@
   },
   "keywords": [],
   "author": "",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1"
+  },
   "license": "ISC",
   "packageManager": "pnpm@10.17.0"
 }

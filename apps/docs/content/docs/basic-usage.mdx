@@ -5,6 +5,7 @@ description: Configuration and usage guide for Keylio
 
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
 
 ## Server Configuration
@@ -12,26 +13,110 @@ import { TypeTable } from 'fumadocs-ui/components/type-table';
 Follow the steps below to configure Keylio in your project.
 
 <Steps>
+ <Step title="Set up database schema">
+  Keylio requires **Session** and **Account** models with specific fields to function correctly.
+  The **User** model is flexible — only the fields required for relations are mandatory.
+  You are free to extend the `User` model with additional fields based on your application needs.
+
+  <Tabs items={['Prisma']}>
+    <Tab value="Prisma">
+      Add the following models to your `schema.prisma` file.
+
+      <Callout type="warning">
+        <strong>Important</strong><br />
+        - <code>Session</code> and <code>Account</code> models must match the schema below exactly.<br />
+        - The <code>User</code> model may include additional fields, but the relation fields shown are required.
+      </Callout>
+
+      ```prisma title="prisma/schema.prisma"
+      model User {
+        /// Required — used to link sessions and accounts
+        id        String    @id @default(uuid())
+
+        /// Required — used for credential authentication
+        email     String    @unique
+        password String?
+
+        /// Optional — add or remove freely
+        role         String?
+        createdAt    DateTime @default(now())
+
+        /// Required relations
+        sessions Session[]
+        accounts Account[]
+
+        @@map("users")
+      }
+
+      /// REQUIRED — do not modify field names or relations
+      model Session {
+        id           String   @id @default(cuid())
+        sessionToken String   @unique @map("session_token")
+        userId       String   @map("user_id")
+        expires      DateTime
+
+        user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+        @@map("sessions")
+      }
+
+      /// REQUIRED — do not modify field names or relations
+      model Account {
+        id                String  @id @default(cuid())
+        userId            String  @map("user_id")
+        type              String
+        provider          String
+        providerAccountId String  @map("provider_account_id")
+
+        refresh_token String? @db.Text
+        access_token  String? @db.Text
+        expires_at    Int?
+        token_type    String?
+        scope         String?
+        id_token      String? @db.Text
+        session_state String?
+
+        user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+        @@unique([provider, providerAccountId])
+        @@map("accounts")
+      }
+      ```
+
+      <Callout type="info">
+        You can safely rename table mappings (<code>@@map</code>) and add indexes,
+        but altering required fields or relations will break Keylio's adapters.
+      </Callout>
+    </Tab>
+  </Tabs>
+</Step>
+
+
   <Step title="Create a shared authentication utility">
     Create a reusable authentication file (for example, `utils/auth.ts`) to initialize Keylio.
 
-    ```typescript title="utils/auth.ts"
-    import { prisma } from "@/lib/prisma";
-    import { Keylio } from "keylio";
-    import { prismaAdapter } from "keylio/adapters/prisma";
-    import type { KeylioAuthConfig } from "keylio/types";
+<a href="/docs/references#keylioauthconfig">Auth Config Reference</a>.
+    <Tabs items={['Prisma']}>
+      <Tab value="Prisma">
+        ```typescript title="utils/auth.ts"
+        import { prisma } from "@/lib/prisma";
+        import { Keylio } from "keylio";
+        import { prismaAdapter } from "keylio/adapters/prisma";
+        import type { KeylioAuthConfig } from "keylio/types";
 
-    const authOptions: KeylioAuthConfig = {
-      adapter: prismaAdapter(prisma),
-      session: {
-        secret: process.env.AUTH_SECRET || "default_secret",
-      },
-    };
+        const authOptions: KeylioAuthConfig = {
+          adapter: prismaAdapter(prisma),
+          session: {
+            secret: process.env.AUTH_SECRET || "default_secret",
+          },
+        };
 
-    const keylio = new Keylio(authOptions);
+        const keylio = new Keylio(authOptions);
 
-    export { authOptions, keylio };
-    ```
+        export { authOptions, keylio };
+        ```
+      </Tab>
+    </Tabs>
   </Step>
 
   <Step title="Configure environment variables">
@@ -137,4 +222,3 @@ export function Dashboard() {
 <Callout type="warn">
   `useSession` must be used within a component wrapped by `KeylioSessionProvider`. If used outside, it will throw an error.
 </Callout>
-
