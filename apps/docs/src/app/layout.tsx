@@ -1,6 +1,10 @@
 import { RootProvider } from "fumadocs-ui/provider/next";
-import { Inter } from "next/font/google";
+import { Inter, Lexend } from "next/font/google";
 import "./global.css";
+
+const lexend = Lexend({
+  subsets: ["latin"],
+});
 
 const inter = Inter({
   subsets: ["latin"],

@@ -3184,7 +3184,7 @@ packages:
     resolution: {integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==}
 
   keylio@file:packages/keylio/keylio-0.1.0-beta.1.tgz:
-    resolution: {integrity: sha512-YBsMXmxwHDoniqeUSfW7x3FuauH2mDaM0rYHKhhUSLy7UWXZUO1YGZ4/ppkQpBnsmOGbF+ahUh0q2nnnuzUc3Q==, tarball: file:packages/keylio/keylio-0.1.0-beta.1.tgz}
+    resolution: {integrity: sha512-9JeS+pkIiL3MxUsuUOVndwNG8WV/xfnIwpBChBzYXp+m6qm3YyL58jfaEVrLx2xMdtKE2AjCls3VWem7OrGxmw==, tarball: file:packages/keylio/keylio-0.1.0-beta.1.tgz}
     version: 0.1.0-beta.1
     peerDependencies:
       next: ^14.0.0 || ^15.0.0 || ^16.0.0

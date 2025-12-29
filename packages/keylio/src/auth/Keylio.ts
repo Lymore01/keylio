@@ -160,7 +160,21 @@ export class Keylio {
 
         const decoded = verifyJwtToken(token, this.config.session!.secret);
 
-        return decoded;
+        if (!decoded || typeof decoded === "string") return null;
+
+        return {
+          sessionToken: token,
+          user: {
+            id: decoded.sub,
+            email: decoded.email,
+            role: decoded.role,
+            createdAt: decoded.createdAt
+              ? new Date(decoded.createdAt)
+              : new Date((decoded.iat || 0) * 1000),
+          },
+          expires: new Date((decoded.exp || 0) * 1000),
+          strategy: "jwt",
+        };
       } else if (strategy === "database") {
         const cookieHeader = req?.headers?.cookie || "";
 
@@ -177,9 +191,22 @@ export class Keylio {
           const user = await this.config.adapter?.findOne<UserType>(
             "user",
             [{ field: "id", operator: "eq", value: session.userId }],
-            ["id", "email", "role"]
+            ["id", "email", "role", "createdAt"]
           );
-          return session;
+
+          if (!user) return null;
+
+          return {
+            sessionToken: session.sessionToken,
+            user: {
+              id: user.id,
+              email: user.email,
+              role: user.role,
+              createdAt: user.createdAt,
+            },
+            expires: session.expires,
+            strategy: "database",
+          };
         } else {
           return null;
         }

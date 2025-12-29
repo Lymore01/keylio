@@ -1,9 +1,9 @@
 export interface UserType {
   id: string;
   email: string;
-  passwordHash: string;
-  role: string;
-  createdAt: Date;
+  passwordHash?: string;
+  role?: string;
+  createdAt?: Date;
 }
 
 export interface SessionType {

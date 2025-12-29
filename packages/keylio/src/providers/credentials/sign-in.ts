@@ -36,7 +36,7 @@ export async function signInUsingCredentials(
     });
   }
 
-  const validPassword = await bcrypt.compare(password, user.passwordHash);
+  const validPassword = await bcrypt.compare(password, user.passwordHash!);
   if (!validPassword) {
     throw new AuthError({
       message: "Invalid email or password.",

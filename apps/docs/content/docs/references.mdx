@@ -164,6 +164,7 @@ The primary configuration object for initializing Keylio.
     strategy: {
       description: 'Mechanism to handle sessions. "jwt" uses stateless tokens, "database" persists sessions.',
       type: '"jwt" | "database"',
+      default: "jwt"
     },
     secret: {
       description: 'Secret key for signing tokens. Required.',

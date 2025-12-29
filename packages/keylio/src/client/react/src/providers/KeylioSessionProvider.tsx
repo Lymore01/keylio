@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -116,7 +117,21 @@ type KeylioSessionProviderProps = {
   initialSession?: SessionState;
   /** Optional: automatically refresh JWT before expiry (ms) */
   autoRefreshInterval?: number; // e.g. 5 * 60 * 1000 (5 min)
+  /** Optional: refetch session when window gains focus */
+  refetchOnWindowFocus?: boolean;
 };
+
+function mapToSession(raw: any): Session {
+  return {
+    sessionToken: raw.sessionToken,
+    user: {
+      ...raw.user,
+      createdAt: new Date(raw.user.createdAt),
+    },
+    expires: new Date(raw.expires),
+    strategy: raw.strategy,
+  };
+}
 
 /**
  * React provider component for Keylio authentication sessions.
@@ -143,22 +158,74 @@ export const KeylioSessionProvider = ({
   children,
   initialSession = { data: null, status: "unauthenticated" },
   autoRefreshInterval = 5 * 60 * 1000, // default 5 min
+  refetchOnWindowFocus = true,
 }: KeylioSessionProviderProps) => {
   const [session, setSession] = useState<SessionState>(initialSession);
+
+  const refresh = useCallback(async () => {
+    try {
+      const res = await fetch("/api/auth/session");
+      const updated = await res.json();
+      if (updated?.session) {
+        setSession({
+          data: mapToSession(updated.session),
+          status: "authenticated",
+        });
+      } else {
+        setSession({ data: null, status: "unauthenticated" });
+      }
+    } catch (error) {
+      console.error("[Keylio] Failed to refresh session:", error);
+      setSession({ data: null, status: "unauthenticated" });
+    }
+  }, []);
+
+  const signOut = useCallback(async () => {
+    try {
+      await fetch("/api/auth/signout", { method: "POST" });
+      setSession({ data: null, status: "unauthenticated" });
+    } catch (error) {
+      console.error("[Keylio] Sign-out failed:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (session.status === "unauthenticated") {
+      setSession((prev) => ({ ...prev, status: "loading" }));
+      refresh();
+    }
+  }, [refresh]);
+
+  useEffect(() => {
+    if (!refetchOnWindowFocus) return;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") refresh();
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [refresh, refetchOnWindowFocus]);
 
   useEffect(() => {
     if (!session?.data || session.status !== "authenticated") return;
 
-    const expiresIn =
-      new Date(session.data.expires).getTime() - Date.now() - 60_000;
+    const expiryTime = new Date(session.data.expires).getTime();
+    if (isNaN(expiryTime)) return;
+
+    const expiresIn = expiryTime - Date.now() - 60_000;
     const refreshTime = Math.max(expiresIn, autoRefreshInterval);
 
+    // todo: improve timer logic to avoid multiple intervals
     const interval = setInterval(async () => {
       try {
         const res = await fetch("/api/auth/session");
         const updated = await res.json();
         if (updated?.session) {
-          setSession({ data: updated.session, status: "authenticated" });
+          setSession({
+            data: mapToSession(updated.session),
+            status: "authenticated",
+          });
         }
       } catch (error) {
         console.error("[Keylio] Auto-refresh failed:", error);
@@ -167,30 +234,6 @@ export const KeylioSessionProvider = ({
 
     return () => clearInterval(interval);
   }, [session, autoRefreshInterval]);
-
-  const refresh = async () => {
-    try {
-      const res = await fetch("/api/auth/session");
-      const updated = await res.json();
-      if (updated?.session) {
-        setSession({ data: updated.session, status: "authenticated" });
-      } else {
-        setSession({ data: null, status: "unauthenticated" });
-      }
-    } catch (error) {
-      console.error("[Keylio] Failed to refresh session:", error);
-      setSession({ data: null, status: "unauthenticated" });
-    }
-  };
-
-  const signOut = async () => {
-    try {
-      await fetch("/api/auth/signout", { method: "POST" });
-      setSession({ data: null, status: "unauthenticated" });
-    } catch (error) {
-      console.error("[Keylio] Sign-out failed:", error);
-    }
-  };
 
   const contextValue = useMemo<SessionContextValue>(
     () => ({

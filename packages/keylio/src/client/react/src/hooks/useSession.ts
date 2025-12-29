@@ -12,7 +12,7 @@ import { SessionContext } from "../providers/KeylioSessionProvider.js";
  *
  * @example
  * ```tsx
- * import { useSession } from "@keylio/react";
+ * import { useSession } from "keylio/react";
  *
  * function Dashboard() {
  *   const { data, status, refresh, signOut } = useSession();
