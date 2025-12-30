@@ -12,7 +12,7 @@
   "dependencies": {
     "@keylio/types": "workspace:*",
     "@prisma/client": "^6.19.0",
-    "keylio": "file:..\\..\\packages\\keylio\\keylio-0.1.0-beta.1.tgz",
+    "keylio": "workspace:*",
     "next": "16.0.10",
     "react": "19.2.0",
     "react-dom": "19.2.0"
