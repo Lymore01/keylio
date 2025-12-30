@@ -1,6 +1,6 @@
 {
   "name": "keylio",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "description": "A modular, framework-agnostic authentication system for TypeScript",
   "license": "MIT",
   "type": "module",
